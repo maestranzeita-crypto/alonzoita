@@ -659,19 +659,14 @@
       pointer-events: none;
       text-transform: uppercase;
     }
-    /* ── GEAR DIVIDER ── */
+    /* ── GEAR / CERCHIO ANIMATO ── */
     .hero {
       position: relative;
       z-index: 2;
     }
 
-    .gear-divider {
+    #siti {
       position: relative;
-      z-index: 1;
-      height: 0;
-      display: flex;
-      justify-content: center;
-      overflow: visible;
     }
 
     #gears {
@@ -684,6 +679,8 @@
       overflow: visible;
       transform-origin: center;
       animation: gearCCW 60s linear infinite;
+      z-index: 1;
+      pointer-events: none;
     }
 
     #gears #g2 {
@@ -695,12 +692,9 @@
       mix-blend-mode: difference;
     }
 
-    @keyframes gearCW {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes gearCCW {
-      to { transform: rotate(-360deg); }
+    #siti .section-header {
+      position: relative;
+      z-index: 2;
     }
 
     #siti .section-title {
@@ -711,6 +705,14 @@
     #siti .section-desc {
       color: #ffffff;
       mix-blend-mode: difference;
+    }
+
+    @keyframes gearCW {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gearCCW {
+      to { transform: rotate(-360deg); }
     }
 
     @media (max-width: 480px) {
@@ -735,8 +737,8 @@
     <a href="#siti" class="hero-portfolio-btn">Portfolio</a>
   </section>
 
-  <!-- GEAR DIVIDER -->
-  <div class="gear-divider">
+  <!-- SITI WEB -->
+  <section id="siti">
     <svg id="gears" width="400" height="400" viewBox="0 0 400 400">
       <circle cx="200" cy="200" r="100" fill="none" stroke="#FFF" stroke-width="200" stroke-dasharray="4.3 4.3" />
       <g id="g2" fill="#FFF" stroke="none" class="mbm">
@@ -756,10 +758,6 @@
         </radialGradient>
       </defs>
     </svg>
-  </div>
-
-  <!-- SITI WEB -->
-  <section id="siti">
     <div class="section-header">
       <h2 class="section-title">Progetti</h2>
       <div class="divider"></div>
