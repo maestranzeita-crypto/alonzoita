@@ -231,6 +231,7 @@
     /* ── SITI WEB ── */
     #siti {
       background: #111111;
+      padding: 0 0 7rem;
     }
 
     .projects-grid {
@@ -665,15 +666,23 @@
       z-index: 2;
     }
 
-    #siti {
+    /* contenitore blend: position:relative senza z-index → non crea stacking context */
+    .blend-header {
       position: relative;
+      background: #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7rem 6vw 4rem;
+      overflow: visible;
     }
 
+    /* SVG fratello diretto del testo, z-index:1 nel body stacking context */
     #gears {
       position: absolute;
-      top: -200px;
+      top: 50%;
       left: 50%;
-      translate: -50% 0;
+      translate: -50% -50%;
       width: 400px;
       height: 400px;
       overflow: visible;
@@ -692,19 +701,26 @@
       mix-blend-mode: difference;
     }
 
+    /* section-header: solo position:relative, NO z-index → non crea stacking context
+       così i figli operano nel body stacking context e vedono l'SVG sottostante */
     #siti .section-header {
       position: relative;
-      z-index: 2;
     }
 
+    /* z-index:2 + mix-blend-mode direttamente su titolo e desc:
+       creano stacking context nel body stacking context, sopra l'SVG (z-index:1) */
     #siti .section-title {
       color: #ffffff;
       mix-blend-mode: difference;
+      position: relative;
+      z-index: 2;
     }
 
     #siti .section-desc {
       color: #ffffff;
       mix-blend-mode: difference;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes gearCW {
@@ -719,7 +735,6 @@
       #gears {
         width: 280px;
         height: 280px;
-        top: -140px;
       }
     }
   </style>
@@ -739,29 +754,34 @@
 
   <!-- SITI WEB -->
   <section id="siti">
-    <svg id="gears" width="400" height="400" viewBox="0 0 400 400">
-      <circle cx="200" cy="200" r="100" fill="none" stroke="#FFF" stroke-width="200" stroke-dasharray="4.3 4.3" />
-      <g id="g2" fill="#FFF" stroke="none" class="mbm">
-        <circle cx="170" cy="200" r="170" />
-        <circle class="mbm" cx="230" cy="200" r="109.5" />
-        <circle class="mbm" cx="180" cy="200" r="59.5" />
-      </g>
-      <circle cx="200" cy="200" r="204" fill="none" stroke="#FFF" stroke-width="3" />
-      <circle cx="200" cy="200" r="40" fill="url('#rGradient')" stroke="none" />
-      <circle cx="200" cy="200" r="33" fill="white" stroke="none" />
-      <circle cx="200" cy="200" r="31" fill="black" stroke="none" />
-      <circle cx="200" cy="200" r="39" fill="none" stroke="black" stroke-width="2" stroke-opacity="0.1" />
-      <defs>
-        <radialGradient id="rGradient">
-          <stop offset="80%" stop-color="#FFFFFF" stop-opacity="1" />
-          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-    </svg>
-    <div class="section-header">
-      <h2 class="section-title">Progetti</h2>
-      <div class="divider"></div>
-      <p class="section-desc" style="margin-top:1.25rem;">fatti col cuore</p>
+    <!-- .blend-header: contenitore con position:relative + background:black, senza isolation -->
+    <div class="blend-header">
+      <!-- SVG posizionato absolute z-index:1, fratello diretto del testo -->
+      <svg id="gears" width="400" height="400" viewBox="0 0 400 400">
+        <circle cx="200" cy="200" r="100" fill="none" stroke="#FFF" stroke-width="200" stroke-dasharray="4.3 4.3" />
+        <g id="g2" fill="#FFF" stroke="none" class="mbm">
+          <circle cx="170" cy="200" r="170" />
+          <circle class="mbm" cx="230" cy="200" r="109.5" />
+          <circle class="mbm" cx="180" cy="200" r="59.5" />
+        </g>
+        <circle cx="200" cy="200" r="204" fill="none" stroke="#FFF" stroke-width="3" />
+        <circle cx="200" cy="200" r="40" fill="url('#rGradient')" stroke="none" />
+        <circle cx="200" cy="200" r="33" fill="white" stroke="none" />
+        <circle cx="200" cy="200" r="31" fill="black" stroke="none" />
+        <circle cx="200" cy="200" r="39" fill="none" stroke="black" stroke-width="2" stroke-opacity="0.1" />
+        <defs>
+          <radialGradient id="rGradient">
+            <stop offset="80%" stop-color="#FFFFFF" stop-opacity="1" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+      </svg>
+      <!-- testo: position:relative z-index:2 mix-blend-mode:difference -->
+      <div class="section-header">
+        <h2 class="section-title">Progetti</h2>
+        <div class="divider"></div>
+        <p class="section-desc" style="margin-top:1.25rem;">fatti col cuore</p>
+      </div>
     </div>
 
     <div class="projects-grid">
