@@ -49,7 +49,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 6vw;
+      padding: 0 6vw;
+      height: 56px;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
@@ -64,10 +65,11 @@
       text-decoration: none;
       letter-spacing: -0.02em;
       line-height: 1;
-      transform: rotate(180deg) translateY(-10%);
-      display: inline-block;
-      position: relative;
+      transform: rotate(180deg);
+      position: absolute;
       top: 50%;
+      left: 6vw;
+      translate: 0 -50%;
     }
 
     .nav-label {
