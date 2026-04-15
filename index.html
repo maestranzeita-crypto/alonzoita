@@ -673,14 +673,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 7rem 6vw 4rem;
+      padding: 14rem 6vw 4rem; /* spazio per il cerchio che sporge in alto */
       overflow: visible;
     }
 
-    /* SVG fratello diretto del testo, z-index:1 nel body stacking context */
+    /* SVG col centro sul bordo superiore di #siti → visivamente tra le due sezioni */
     #gears {
       position: absolute;
-      top: 50%;
+      top: 0;
       left: 50%;
       translate: -50% -50%;
       width: 400px;
@@ -735,6 +735,9 @@
       #gears {
         width: 280px;
         height: 280px;
+      }
+      .blend-header {
+        padding-top: 10rem;
       }
     }
   </style>
