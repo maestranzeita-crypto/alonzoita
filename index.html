@@ -531,7 +531,19 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav {
-        padding: 1rem 5vw;
+        padding: 0 4vw;
+        height: 48px;
+      }
+
+      .nav-logo {
+        font-size: 3.5rem;
+      }
+
+      .carousel-slide img {
+        height: auto;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        object-fit: cover;
       }
 
       .photo-grid {
@@ -564,6 +576,86 @@
         flex-direction: column;
         align-items: center;
       }
+    }
+
+    /* ── LIGHTBOX ── */
+    .carousel-slide img {
+      cursor: zoom-in;
+    }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0, 0, 0, 0.93);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lightbox.open {
+      display: flex;
+    }
+
+    #lightbox-img-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #lbImg {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+      cursor: grab;
+    }
+
+    #lbImg.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    #lbClose {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    #lbClose:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    #lbZoomHint {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      translate: -50% 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.45);
+      pointer-events: none;
+      text-transform: uppercase;
     }
   </style>
 </head>
@@ -669,6 +761,15 @@
   </section>
 
 
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button id="lbClose">&#10005;</button>
+    <div id="lightbox-img-wrap">
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <span id="lbZoomHint">pinch o doppio tap per zoomare</span>
+  </div>
+
   <!-- FOOTER -->
   <footer id="contatti">
     <div class="footer-contact">
@@ -685,11 +786,12 @@
   </footer>
 
   <script>
-    // Carosello
+    // ── Carosello ──
     const track = document.getElementById('carouselTrack');
     const dots = document.querySelectorAll('.carousel-dot');
     let current = 0;
     const total = 3;
+    let swipeHandled = false;
 
     function goTo(index) {
       current = (index + total) % total;
@@ -701,22 +803,153 @@
     document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
     dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
-    // Swipe touch
-    let startX = 0;
-    track.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+    // Swipe touch sul carosello
+    let swipeStartX = 0;
+    track.addEventListener('touchstart', e => {
+      swipeStartX = e.touches[0].clientX;
+      swipeHandled = false;
+    });
     track.addEventListener('touchend', e => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+      const diff = swipeStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        swipeHandled = true;
+        goTo(diff > 0 ? current + 1 : current - 1);
+      }
     });
 
-    // Nav hide on scroll
+    // ── Nav hide on scroll ──
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) {
-        nav.classList.add('hidden');
-      } else {
-        nav.classList.remove('hidden');
+      nav.classList.toggle('hidden', window.scrollY > 10);
+    });
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbWrap = document.getElementById('lightbox-img-wrap');
+
+    // Apri lightbox al click su immagini carosello
+    document.querySelectorAll('.carousel-slide img').forEach(img => {
+      img.addEventListener('click', () => {
+        if (swipeHandled) return;
+        lbImg.src = img.src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        resetZoom();
+      });
+    });
+
+    // Chiudi
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    lbWrap.addEventListener('click', e => {
+      if (e.target === lbWrap) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      resetZoom();
+    }
+
+    // ── Zoom state ──
+    let scale = 1, lastScale = 1;
+    let posX = 0, posY = 0;
+    let pinchStartDist = 0;
+
+    function resetZoom() {
+      scale = 1; lastScale = 1; posX = 0; posY = 0;
+      lbImg.style.transition = 'transform 0.2s ease';
+      lbImg.style.transform = 'scale(1) translate(0px, 0px)';
+    }
+
+    function applyTransform(animated) {
+      lbImg.style.transition = animated ? 'transform 0.15s ease' : 'none';
+      lbImg.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+    }
+
+    // Pinch-to-zoom e pan
+    let touchStartX = 0, touchStartY = 0;
+    let lastTap = 0;
+
+    lbImg.addEventListener('touchstart', e => {
+      e.stopPropagation();
+      if (e.touches.length === 2) {
+        pinchStartDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        lastScale = scale;
+      } else if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX - posX * scale;
+        touchStartY = e.touches[0].clientY - posY * scale;
       }
+    }, { passive: true });
+
+    lbImg.addEventListener('touchmove', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches.length === 2) {
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        scale = Math.min(Math.max(lastScale * (dist / pinchStartDist), 1), 5);
+        applyTransform(false);
+      } else if (e.touches.length === 1 && scale > 1) {
+        posX = (e.touches[0].clientX - touchStartX) / scale;
+        posY = (e.touches[0].clientY - touchStartY) / scale;
+        applyTransform(false);
+      }
+    }, { passive: false });
+
+    lbImg.addEventListener('touchend', e => {
+      e.stopPropagation();
+      // Doppio tap per zoom/reset
+      const now = Date.now();
+      if (now - lastTap < 280 && e.changedTouches.length === 1) {
+        if (scale > 1) {
+          resetZoom();
+        } else {
+          scale = 2.5;
+          posX = 0; posY = 0;
+          applyTransform(true);
+        }
+      }
+      lastTap = now;
+      // Rimetti in bounds se sotto scala 1
+      if (scale < 1) { scale = 1; posX = 0; posY = 0; applyTransform(true); }
+    });
+
+    // Zoom con scroll mouse (desktop)
+    lbImg.addEventListener('wheel', e => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 1.15 : 0.87;
+      scale = Math.min(Math.max(scale * delta, 1), 5);
+      if (scale === 1) { posX = 0; posY = 0; }
+      applyTransform(false);
+    }, { passive: false });
+
+    // Pan con mouse (desktop)
+    let mouseDown = false, mStartX = 0, mStartY = 0;
+    lbImg.addEventListener('mousedown', e => {
+      if (scale <= 1) return;
+      mouseDown = true;
+      lbImg.classList.add('dragging');
+      mStartX = e.clientX - posX * scale;
+      mStartY = e.clientY - posY * scale;
+    });
+    window.addEventListener('mousemove', e => {
+      if (!mouseDown) return;
+      posX = (e.clientX - mStartX) / scale;
+      posY = (e.clientY - mStartY) / scale;
+      applyTransform(false);
+    });
+    window.addEventListener('mouseup', () => {
+      mouseDown = false;
+      lbImg.classList.remove('dragging');
     });
   </script>
 </body>
