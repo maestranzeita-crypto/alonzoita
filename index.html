@@ -82,15 +82,20 @@
       text-align: center;
       padding: 8rem 6vw 6rem;
       position: relative;
-      background: var(--bg);
+      background: url('images/image00010.jpeg') center center / cover no-repeat;
     }
 
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+      background: rgba(0, 0, 0, 0.45);
       pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .hero h1 {
@@ -99,7 +104,7 @@
       font-weight: 700;
       line-height: 1.08;
       letter-spacing: -0.01em;
-      color: var(--text);
+      color: #ffffff;
       margin-bottom: 1.25rem;
     }
 
@@ -110,7 +115,7 @@
 
     .hero-subtitle {
       font-size: clamp(0.9rem, 2vw, 1.1rem);
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.75);
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -547,7 +552,7 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#" class="nav-logo">Alonzo Ita</a>
+    <a href="#" class="nav-logo">alonzoita.com</a>
     <span class="nav-label">Portfolio</span>
   </nav>
 
