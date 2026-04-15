@@ -55,6 +55,12 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       overflow: visible;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    nav.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
     }
 
     .nav-logo {
@@ -773,5 +779,15 @@
     </div>
   </footer>
 
+  <script>
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        nav.classList.add('hidden');
+      } else {
+        nav.classList.remove('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
