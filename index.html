@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alonzo Ita — Web Designer & Fotografo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #0f0f0f;
+      --bg-card:   #1a1a1a;
+      --bg-card-hover: #212121;
+      --border:    #2a2a2a;
+      --gold:      #c9a84c;
+      --gold-dim:  rgba(201, 168, 76, 0.15);
+      --white:     #f5f5f5;
+      --muted:     #888;
+      --radius:    12px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6vw;
+      background: rgba(15, 15, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 6vw 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201, 168, 76, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #0f0f0f;
+    }
+
+    .btn-primary:hover {
+      background: #dbb85a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(201, 168, 76, 0.3);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      padding: 7rem 6vw;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── SITI WEB ── */
+    #siti {
+      background: #0c0c0c;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border-color: var(--gold);
+    }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #1f1f1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.05) 0%, transparent 60%);
+    }
+
+    .project-thumb-icon {
+      width: 48px;
+      height: 48px;
+      opacity: 0.18;
+    }
+
+    .project-card:hover .project-thumb-icon {
+      opacity: 0.35;
+      transition: opacity 0.35s;
+    }
+
+    .project-body {
+      padding: 1.5rem;
+    }
+
+    .project-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap 0.25s;
+    }
+
+    .project-link:hover {
+      gap: 0.7rem;
+    }
+
+    /* ── FOTOGRAFIE ── */
+    #foto {
+      background: var(--bg);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 240px);
+      gap: 0.75rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .photo-cell {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .photo-cell:hover {
+      transform: scale(1.02);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    .photo-cell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0,0,0,0.7) 100%
+      );
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .photo-cell:hover::before {
+      opacity: 1;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+    }
+
+    .photo-placeholder svg {
+      width: 36px;
+      height: 36px;
+      opacity: 0.15;
+      transition: opacity 0.35s;
+    }
+
+    .photo-cell:hover .photo-placeholder svg {
+      opacity: 0.35;
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s, transform 0.35s;
+      font-size: 0.8rem;
+      color: var(--white);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .photo-cell:hover .photo-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* photo grid accents */
+    .photo-cell:nth-child(1) .photo-placeholder {
+      background: linear-gradient(135deg, #1e1a14 0%, #141410 100%);
+    }
+    .photo-cell:nth-child(3) .photo-placeholder {
+      background: linear-gradient(135deg, #141a1e 0%, #101418 100%);
+    }
+    .photo-cell:nth-child(5) .photo-placeholder {
+      background: linear-gradient(135deg, #1a1418 0%, #141010 100%);
+    }
+
+    /* ── ABOUT STRIP ── */
+    #about {
+      background: #0c0c0c;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 6vw;
+    }
+
+    .about-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: border-color 0.25s, color 0.25s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color 0.25s;
+    }
+
+    .stat-box:hover {
+      border-color: var(--gold-dim);
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 4rem 6vw 3rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .footer-contact a {
+      display: inline-block;
+      font-size: 1rem;
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 2px;
+      transition: color 0.25s, border-color 0.25s;
+    }
+
+    .footer-contact a:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: #444;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 5vw;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 200px);
+      }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-stats {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, 180px);
+      }
+
+      .about-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">A.I.</a>
+    <ul class="nav-links">
+      <li><a href="#siti">Siti Web</a></li>
+      <li><a href="#foto">Fotografie</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-eyebrow">Portfolio &nbsp;·&nbsp; 2024</span>
+    <h1>Alonzo<br /><em>Ita</em></h1>
+    <p class="hero-subtitle">Web Designer &nbsp;&amp;&nbsp; Fotografo</p>
+    <div class="hero-cta">
+      <a href="#siti" class="btn btn-primary">Vedi i progetti</a>
+      <a href="#contatti" class="btn btn-outline">Contattami</a>
+    </div>
+  </section>
+
+  <!-- SITI WEB -->
+  <section id="siti">
+    <div class="section-header">
+      <span class="section-tag">Portfolio Web</span>
+      <h2 class="section-title">I miei siti</h2>
+      <div class="divider"></div>
+      <p class="section-desc" style="margin-top:1.25rem;">Progettazione e sviluppo di esperienze digitali su misura.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Card 1 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <svg class="project-thumb-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="10" width="40" height="28" rx="3" stroke="#c9a84c" stroke-width="2" fill="none"/>
+            <path d="M4 18h40" stroke="#c9a84c" stroke-width="2"/>
+            <circle cx="10" cy="14" r="1.5" fill="#c9a84c"/>
+            <circle cx="15" cy="14" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <p class="project-tag">E-commerce</p>
+          <h3 class="project-name">Boutique Online</h3>
+          <p class="project-desc">Negozio digitale con catalogo prodotti, carrello e checkout integrato. Design minimal e conversioni ottimizzate.</p>
+          <a href="#" class="project-link">Esplora &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <svg class="project-thumb-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="10" width="40" height="28" rx="3" stroke="#c9a84c" stroke-width="2" fill="none"/>
+            <path d="M4 18h40" stroke="#c9a84c" stroke-width="2"/>
+            <circle cx="10" cy="14" r="1.5" fill="#c9a84c"/>
+            <circle cx="15" cy="14" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <p class="project-tag">Sito Vetrina</p>
+          <h3 class="project-name">Studio Creativo</h3>
+          <p class="project-desc">Presenza digitale per uno studio di architettura. Galleria progetti, team e modulo di richiesta preventivo.</p>
+          <a href="#" class="project-link">Esplora &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <svg class="project-thumb-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="10" width="40" height="28" rx="3" stroke="#c9a84c" stroke-width="2" fill="none"/>
+            <path d="M4 18h40" stroke="#c9a84c" stroke-width="2"/>
+            <circle cx="10" cy="14" r="1.5" fill="#c9a84c"/>
+            <circle cx="15" cy="14" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <p class="project-tag">Landing Page</p>
+          <h3 class="project-name">App di Fitness</h3>
+          <p class="project-desc">Landing page ad alta conversione per il lancio di una app mobile. A/B test, animazioni e copy persuasivo.</p>
+          <a href="#" class="project-link">Esplora &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOTOGRAFIE -->
+  <section id="foto">
+    <div class="section-header">
+      <span class="section-tag">Fotografia</span>
+      <h2 class="section-title">Le mie fotografie</h2>
+      <div class="divider"></div>
+      <p class="section-desc" style="margin-top:1.25rem;">Scatti tra reportage urbano, ritratti e paesaggio.</p>
+    </div>
+
+    <div class="photo-grid">
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Ritratto urbano</span>
+      </div>
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Paesaggio al tramonto</span>
+      </div>
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Street photography</span>
+      </div>
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Architettura</span>
+      </div>
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Reportage</span>
+      </div>
+
+      <div class="photo-cell">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="32" height="22" rx="3" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="18" r="6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="11" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <span class="photo-caption">Natura</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2>Design &amp; luce,<br /><em style="font-family:'Playfair Display',serif; color:var(--gold)">una sola visione.</em></h2>
+        <p>Sono Alonzo Ita, web designer e fotografo con base in Italia. Unisco la precisione del codice alla sensibilità visiva della fotografia per creare esperienze digitali che parlano alle persone.</p>
+        <p>Ogni progetto nasce da un ascolto attento: capire il brand, tradurlo in pixel e luce.</p>
+        <div class="skills-list">
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Photoshop</span>
+          <span class="skill-tag">Lightroom</span>
+          <span class="skill-tag">Sony Alpha</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-number">24+</div>
+          <div class="stat-label">Siti realizzati</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">5K+</div>
+          <div class="stat-label">Scatti prodotti</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">8</div>
+          <div class="stat-label">Anni di esperienza</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Clienti soddisfatti</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / CONTATTI -->
+  <footer id="contatti">
+    <div class="footer-logo">A.I.</div>
+    <p class="footer-tagline">Web Designer &amp; Fotografo — Italia</p>
+    <div class="footer-contact">
+      <p style="color:var(--muted); font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.6rem;">Scrivimi</p>
+      <a href="mailto:alonzo@ita.design">alonzo@ita.design</a>
+    </div>
+    <p class="footer-bottom">&copy; 2024 Alonzo Ita &mdash; Tutti i diritti riservati</p>
+  </footer>
+
+</body>
+</html>
