@@ -230,7 +230,7 @@
 
     /* ── SITI WEB ── */
     #siti {
-      background: var(--bg-alt);
+      background: #111111;
     }
 
     .projects-grid {
@@ -242,8 +242,8 @@
     }
 
     .project-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
       border-radius: var(--radius);
       overflow: hidden;
       transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
@@ -252,14 +252,14 @@
 
     .project-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.09);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
       border-color: var(--gold);
     }
 
     .project-thumb {
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: var(--bg-card);
+      background: #222222;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -295,13 +295,13 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.15rem;
       font-weight: 700;
-      color: var(--text);
+      color: #ffffff;
       margin-bottom: 0.5rem;
     }
 
     .project-desc {
       font-size: 0.875rem;
-      color: var(--muted);
+      color: #999999;
       line-height: 1.65;
     }
 
@@ -705,7 +705,10 @@
 
     #siti .section-title {
       color: #ffffff;
-      mix-blend-mode: difference;
+    }
+
+    #siti .section-desc {
+      color: #999999;
     }
 
     @media (max-width: 480px) {
@@ -733,20 +736,21 @@
   <!-- GEAR DIVIDER -->
   <div class="gear-divider">
     <svg id="gears" width="400" height="400" viewBox="0 0 400 400">
-      <circle cx="200" cy="200" r="100" fill="none" stroke="#000" stroke-width="200" stroke-dasharray="4.3 4.3" />
-      <g id="g2" fill="#000" stroke="none" class="mbm">
+      <circle cx="200" cy="200" r="100" fill="none" stroke="#FFF" stroke-width="200" stroke-dasharray="4.3 4.3" />
+      <g id="g2" fill="#FFF" stroke="none" class="mbm">
         <circle cx="170" cy="200" r="170" />
         <circle class="mbm" cx="230" cy="200" r="109.5" />
         <circle class="mbm" cx="180" cy="200" r="59.5" />
       </g>
-      <circle cx="200" cy="200" r="204" fill="none" stroke="#000" stroke-width="3" />
+      <circle cx="200" cy="200" r="204" fill="none" stroke="#FFF" stroke-width="3" />
       <circle cx="200" cy="200" r="40" fill="url('#rGradient')" stroke="none" />
-      <circle cx="200" cy="200" r="33" fill="black" stroke="none" />
-      <circle cx="200" cy="200" r="31" fill="white" stroke="none" />
+      <circle cx="200" cy="200" r="33" fill="white" stroke="none" />
+      <circle cx="200" cy="200" r="31" fill="black" stroke="none" />
+      <circle cx="200" cy="200" r="39" fill="none" stroke="black" stroke-width="2" stroke-opacity="0.1" />
       <defs>
         <radialGradient id="rGradient">
-          <stop offset="80%" stop-color="#000000" stop-opacity="1" />
-          <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+          <stop offset="80%" stop-color="#FFFFFF" stop-opacity="1" />
+          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
         </radialGradient>
       </defs>
     </svg>
