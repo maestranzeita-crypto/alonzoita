@@ -283,9 +283,21 @@
       filter: grayscale(100%);
     }
 
+    .video-poster-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      z-index: 1;
+      transition: opacity 0.2s;
+    }
+
     .project-card-overlay {
       position: absolute;
       inset: 0;
+      z-index: 2;
       background: rgba(0, 0, 0, 0.52);
       display: flex;
       flex-direction: column;
@@ -815,9 +827,10 @@
 
     <div class="project-featured">
       <div class="project-card" onclick="window.open('https://www.maestranze.com/','_blank')">
-        <video muted loop playsinline poster="poster_maestranze.jpg">
+        <video muted loop playsinline>
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
+        <img class="video-poster-overlay" src="poster_maestranze.jpg" alt="" />
         <div class="project-card-overlay">
           <svg width="0" height="0" class="hidden">
             <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 195 40" id="maestranze-logo">
@@ -833,9 +846,10 @@
         </div>
       </div>
       <div class="project-card" onclick="window.open('https://caffineria-site.vercel.app/','_blank')">
-        <video muted loop playsinline preload="auto" poster="poster_caffineria.jpg">
+        <video muted loop playsinline>
           <source src="caffineria.mp4" type="video/mp4" />
         </video>
+        <img class="video-poster-overlay" src="poster_caffineria.jpg" alt="" />
         <div class="project-card-overlay">
           <svg width="0" height="0" style="position:absolute">
             <symbol version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1033.000000 609.000000" id="caffineria-logo">
@@ -949,19 +963,30 @@
     // ── Video cards: hover su desktop, tieni premuto su mobile ──
     document.querySelectorAll('.project-card').forEach(card => {
       const video = card.querySelector('video');
+      const poster = card.querySelector('.video-poster-overlay');
       if (!video) return;
 
+      function playCard() {
+        if (poster) poster.style.opacity = '0';
+        video.play();
+      }
+      function pauseCard() {
+        video.pause();
+        video.currentTime = 0;
+        if (poster) poster.style.opacity = '1';
+      }
+
       // Desktop: hover
-      card.addEventListener('mouseenter', () => video.play());
-      card.addEventListener('mouseleave', () => video.pause());
+      card.addEventListener('mouseenter', playCard);
+      card.addEventListener('mouseleave', pauseCard);
 
       // Mobile: tieni premuto
       card.addEventListener('touchstart', e => {
         e.preventDefault();
-        video.play();
+        playCard();
       }, { passive: false });
-      card.addEventListener('touchend', () => video.pause());
-      card.addEventListener('touchcancel', () => video.pause());
+      card.addEventListener('touchend', pauseCard);
+      card.addEventListener('touchcancel', pauseCard);
     });
 
     // ── Hero highlight touch ──
