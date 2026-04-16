@@ -798,7 +798,7 @@
 
     <div class="project-featured">
       <div class="project-card">
-        <video autoplay muted loop playsinline>
+        <video muted loop playsinline>
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -806,7 +806,7 @@
         </div>
       </div>
       <div class="project-card">
-        <video autoplay muted loop playsinline>
+        <video muted loop playsinline>
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -814,7 +814,7 @@
         </div>
       </div>
       <div class="project-card">
-        <video autoplay muted loop playsinline>
+        <video muted loop playsinline>
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -822,7 +822,7 @@
         </div>
       </div>
       <div class="project-card">
-        <video autoplay muted loop playsinline>
+        <video muted loop playsinline>
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -882,6 +882,24 @@
   </footer>
 
   <script>
+    // ── Video cards: hover su desktop, tieni premuto su mobile ──
+    document.querySelectorAll('.project-card').forEach(card => {
+      const video = card.querySelector('video');
+      if (!video) return;
+
+      // Desktop: hover
+      card.addEventListener('mouseenter', () => video.play());
+      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+
+      // Mobile: tieni premuto
+      card.addEventListener('touchstart', e => {
+        e.preventDefault();
+        video.play();
+      }, { passive: false });
+      card.addEventListener('touchend', () => { video.pause(); video.currentTime = 0; });
+      card.addEventListener('touchcancel', () => { video.pause(); video.currentTime = 0; });
+    });
+
     // ── Hero highlight touch ──
     document.querySelector('.hero-highlight').addEventListener('click', function() {
       this.classList.add('touched');
