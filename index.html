@@ -150,7 +150,12 @@
       cursor: default;
     }
 
-    .hero-highlight:hover,
+    @media (hover: hover) {
+      .hero-highlight:hover {
+        color: #e03030;
+      }
+    }
+
     .hero-highlight.touched {
       color: #e03030;
     }
@@ -909,7 +914,7 @@
     // ── Hero highlight touch ──
     document.querySelector('.hero-highlight').addEventListener('click', function() {
       this.classList.add('touched');
-      setTimeout(() => this.classList.remove('touched'), 3000);
+      setTimeout(() => this.classList.remove('touched'), 1500);
     });
 
     // ── Carosello ──
