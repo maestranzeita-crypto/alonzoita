@@ -963,30 +963,14 @@
     // ── Video cards: hover su desktop, tieni premuto su mobile ──
     document.querySelectorAll('.project-card').forEach(card => {
       const video = card.querySelector('video');
-      const poster = card.querySelector('.video-poster-overlay');
       if (!video) return;
 
-      function playCard() {
-        if (poster) poster.style.opacity = '0';
-        video.play();
-      }
-      function pauseCard() {
-        video.pause();
-        video.currentTime = 0;
-        if (poster) poster.style.opacity = '1';
-      }
+      card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play(); });
+      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
 
-      // Desktop: hover
-      card.addEventListener('mouseenter', playCard);
-      card.addEventListener('mouseleave', pauseCard);
-
-      // Mobile: tieni premuto
-      card.addEventListener('touchstart', e => {
-        e.preventDefault();
-        playCard();
-      }, { passive: false });
-      card.addEventListener('touchend', pauseCard);
-      card.addEventListener('touchcancel', pauseCard);
+      card.addEventListener('touchstart', e => { e.preventDefault(); video.currentTime = 0; video.play(); }, { passive: false });
+      card.addEventListener('touchend', () => { video.pause(); video.currentTime = 0; });
+      card.addEventListener('touchcancel', () => { video.pause(); video.currentTime = 0; });
     });
 
     // ── Hero highlight touch ──
