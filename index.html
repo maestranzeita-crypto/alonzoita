@@ -254,6 +254,15 @@
     .project-featured {
       max-width: 1100px;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .project-featured {
+        grid-template-columns: 1fr;
+      }
     }
 
     .project-card {
@@ -794,6 +803,30 @@
         </video>
         <div class="project-card-overlay">
           <h3 class="project-name">Maestranze</h3>
+        </div>
+      </div>
+      <div class="project-card">
+        <video autoplay muted loop playsinline>
+          <source src="maestranze.mp4" type="video/mp4" />
+        </video>
+        <div class="project-card-overlay">
+          <h3 class="project-name">Progetto 2</h3>
+        </div>
+      </div>
+      <div class="project-card">
+        <video autoplay muted loop playsinline>
+          <source src="maestranze.mp4" type="video/mp4" />
+        </video>
+        <div class="project-card-overlay">
+          <h3 class="project-name">Progetto 3</h3>
+        </div>
+      </div>
+      <div class="project-card">
+        <video autoplay muted loop playsinline>
+          <source src="maestranze.mp4" type="video/mp4" />
+        </video>
+        <div class="project-card-overlay">
+          <h3 class="project-name">Progetto 4</h3>
         </div>
       </div>
     </div>
