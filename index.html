@@ -827,7 +827,7 @@
 
     <div class="project-featured">
       <div class="project-card" onclick="window.open('https://www.maestranze.com/','_blank')">
-        <video muted loop playsinline>
+        <video muted loop playsinline poster="poster_maestranze.jpg">
           <source src="maestranze.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -845,7 +845,7 @@
         </div>
       </div>
       <div class="project-card" onclick="window.open('https://caffineria-site.vercel.app/','_blank')">
-        <video muted loop playsinline>
+        <video muted loop playsinline poster="poster_caffineria.jpg">
           <source src="caffineria.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -966,9 +966,41 @@
       card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play(); });
       card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
 
-      card.addEventListener('touchstart', e => { e.preventDefault(); video.currentTime = 0; video.play(); }, { passive: false });
-      card.addEventListener('touchend', () => { video.pause(); video.currentTime = 0; });
-      card.addEventListener('touchcancel', () => { video.pause(); video.currentTime = 0; });
+      let holdTimer = null;
+      let touchStartY = 0;
+      let isPlaying = false;
+
+      card.addEventListener('touchstart', e => {
+        touchStartY = e.touches[0].clientY;
+        holdTimer = setTimeout(() => {
+          isPlaying = true;
+          video.currentTime = 0;
+          video.play();
+        }, 150);
+      }, { passive: true });
+
+      card.addEventListener('touchmove', e => {
+        if (holdTimer && !isPlaying) {
+          if (Math.abs(e.touches[0].clientY - touchStartY) > 8) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+          }
+        }
+      }, { passive: true });
+
+      card.addEventListener('touchend', () => {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+        if (isPlaying) { video.pause(); video.currentTime = 0; }
+        isPlaying = false;
+      });
+
+      card.addEventListener('touchcancel', () => {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+        if (isPlaying) { video.pause(); video.currentTime = 0; }
+        isPlaying = false;
+      });
     });
 
     // ── Hero highlight touch ──
