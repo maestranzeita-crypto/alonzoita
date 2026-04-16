@@ -833,7 +833,7 @@
         </div>
       </div>
       <div class="project-card" onclick="window.open('https://caffineria-site.vercel.app/','_blank')">
-        <video muted loop playsinline poster="poster_caffineria.jpg">
+        <video muted loop playsinline preload="auto" poster="poster_caffineria.jpg">
           <source src="caffineria.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay">
@@ -953,15 +953,15 @@
 
       // Desktop: hover
       card.addEventListener('mouseenter', () => video.play());
-      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+      card.addEventListener('mouseleave', () => video.pause());
 
       // Mobile: tieni premuto
       card.addEventListener('touchstart', e => {
         e.preventDefault();
         video.play();
       }, { passive: false });
-      card.addEventListener('touchend', () => { video.pause(); video.currentTime = 0; });
-      card.addEventListener('touchcancel', () => { video.pause(); video.currentTime = 0; });
+      card.addEventListener('touchend', () => video.pause());
+      card.addEventListener('touchcancel', () => video.pause());
     });
 
     // ── Hero highlight touch ──
