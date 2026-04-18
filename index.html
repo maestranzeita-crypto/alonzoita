@@ -1175,6 +1175,137 @@
       lbImg.classList.remove('dragging');
     });
 
+    // ── LETTER ANIMATION CARD 4 ──
+    (function () {
+      const card  = document.getElementById('card4');
+      const label = document.getElementById('ink-text');
+      if (!card || !label) return;
+
+      const PHRASE = 'il prossimo progetto è il tuo';
+      const WORDS  = ['sport','mistero','oro','tuo','mio','metro','motori'];
+      const COLORS = ['#f97316','#7c3aed','#c9a84c','#0891b2','#be185d','#10b981','#dc2626'];
+
+      function buildSpans() {
+        label.innerHTML = '';
+        const spans = [];
+        for (const ch of PHRASE) {
+          if (ch === ' ') {
+            label.appendChild(document.createTextNode('\u00A0'));
+          } else {
+            const s = document.createElement('span');
+            s.textContent = ch;
+            s.style.cssText = 'display:inline-block;transition:opacity .2s;';
+            label.appendChild(s);
+            spans.push({ el: s, char: ch === 'è' ? 'e' : ch });
+          }
+        }
+        return spans;
+      }
+
+      function findIndices(spans, word, taken) {
+        const idxs = [];
+        for (const ch of word) {
+          const i = spans.findIndex((s, j) => s.char === ch && !taken.has(j));
+          if (i !== -1) { taken.add(i); idxs.push(i); }
+        }
+        return idxs;
+      }
+
+      function rel(el) {
+        const er = el.getBoundingClientRect();
+        const cr = card.getBoundingClientRect();
+        return { x: er.left - cr.left + er.width / 2, y: er.top - cr.top + er.height / 2 };
+      }
+
+      function animateWord(spans, word, color, done) {
+        const taken  = new Set();
+        const idxs   = findIndices(spans, word, taken);
+        if (!idxs.length) { done(); return; }
+
+        const cr     = card.getBoundingClientRect();
+        const orig   = idxs.map(i => rel(spans[i].el));
+        const CH     = 16;
+        const totalW = word.length * CH;
+        const tx0    = (cr.width - totalW) / 2 + CH / 2;
+        const ty     = cr.height * 0.32;
+
+        idxs.forEach(i => { spans[i].el.style.opacity = '0'; });
+
+        const clones = idxs.map((idx, i) => {
+          const c = document.createElement('span');
+          c.textContent = spans[idx].el.textContent;
+          c.style.cssText = `
+            position:absolute;pointer-events:none;z-index:30;
+            font-family:'Inter',sans-serif;font-weight:300;
+            font-size:.95rem;letter-spacing:.12em;text-transform:uppercase;
+            color:#ffffff;
+            left:${orig[i].x}px;top:${orig[i].y}px;
+            transform:translate(-50%,-50%);
+            transition:left .55s cubic-bezier(.34,1.56,.64,1),
+                       top  .55s cubic-bezier(.34,1.56,.64,1),
+                       color .35s ease, font-size .4s ease;
+          `;
+          card.appendChild(c);
+          return c;
+        });
+
+        // fly out staggered
+        clones.forEach((c, i) => {
+          setTimeout(() => {
+            c.style.left     = (tx0 + i * CH) + 'px';
+            c.style.top      = ty + 'px';
+            c.style.fontSize = '1.35rem';
+          }, i * 35);
+        });
+
+        // color when formed
+        setTimeout(() => {
+          clones.forEach(c => { c.style.color = color; });
+        }, 720);
+
+        // return staggered
+        setTimeout(() => {
+          clones.forEach((c, i) => {
+            setTimeout(() => {
+              c.style.transition = 'left .45s cubic-bezier(.34,1.56,.64,1),top .45s cubic-bezier(.34,1.56,.64,1),color .3s,font-size .3s';
+              c.style.left      = orig[i].x + 'px';
+              c.style.top       = orig[i].y + 'px';
+              c.style.fontSize  = '.95rem';
+              c.style.color     = '#ffffff';
+            }, i * 28);
+          });
+        }, 1450);
+
+        // cleanup
+        setTimeout(() => {
+          clones.forEach(c => c.remove());
+          idxs.forEach(i => { spans[i].el.style.opacity = '1'; });
+          done();
+        }, 2100);
+      }
+
+      let running = false;
+
+      function run() {
+        if (running) return;
+        running = true;
+        const spans = buildSpans();
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          let wi = 0;
+          function next() {
+            if (wi >= WORDS.length) { running = false; return; }
+            animateWord(spans, WORDS[wi], COLORS[wi % COLORS.length], () => {
+              wi++;
+              setTimeout(next, 180);
+            });
+          }
+          next();
+        }));
+      }
+
+      card.addEventListener('mouseenter', run);
+    })();
 
   </script>
 </body>
