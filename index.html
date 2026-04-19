@@ -802,7 +802,7 @@
 
     .scrivimi-text {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 13vw, 9rem);
+      font-size: clamp(1.9rem, 13vw, 9rem);
       font-weight: 700;
       color: #ffffff;
       mix-blend-mode: difference;
@@ -825,7 +825,8 @@
       z-index: 2;
     }
 
-    .scrivimi-banner:hover .scrivimi-hover-layer {
+    .scrivimi-banner:hover .scrivimi-hover-layer,
+    .scrivimi-banner.touched .scrivimi-hover-layer {
       opacity: 1;
     }
 
@@ -846,12 +847,13 @@
       stroke-dashoffset: 300;
     }
 
-    .scrivimi-banner:hover .ap { animation: drawA 0.55s ease forwards; }
-    .scrivimi-banner:hover .ap:nth-child(1) { animation-delay: 0.00s; }
-    .scrivimi-banner:hover .ap:nth-child(2) { animation-delay: 0.11s; }
-    .scrivimi-banner:hover .ap:nth-child(3) { animation-delay: 0.22s; }
-    .scrivimi-banner:hover .ap:nth-child(4) { animation-delay: 0.33s; }
-    .scrivimi-banner:hover .ap:nth-child(5) { animation-delay: 0.44s; }
+    .scrivimi-banner:hover .ap,
+    .scrivimi-banner.touched .ap { animation: drawA 0.55s ease forwards; }
+    .scrivimi-banner:hover .ap:nth-child(1), .scrivimi-banner.touched .ap:nth-child(1) { animation-delay: 0.00s; }
+    .scrivimi-banner:hover .ap:nth-child(2), .scrivimi-banner.touched .ap:nth-child(2) { animation-delay: 0.11s; }
+    .scrivimi-banner:hover .ap:nth-child(3), .scrivimi-banner.touched .ap:nth-child(3) { animation-delay: 0.22s; }
+    .scrivimi-banner:hover .ap:nth-child(4), .scrivimi-banner.touched .ap:nth-child(4) { animation-delay: 0.33s; }
+    .scrivimi-banner:hover .ap:nth-child(5), .scrivimi-banner.touched .ap:nth-child(5) { animation-delay: 0.44s; }
 
     @keyframes drawA {
       to { stroke-dashoffset: 0; }
@@ -870,7 +872,8 @@
       clip-path: inset(0 100% 0 0);
     }
 
-    .scrivimi-banner:hover .clicca-testo {
+    .scrivimi-banner:hover .clicca-testo,
+    .scrivimi-banner.touched .clicca-testo {
       animation: revealWrite 0.7s ease forwards;
       animation-delay: 0.75s;
     }
@@ -879,6 +882,16 @@
       to { clip-path: inset(0 0% 0 0); }
     }
 
+
+    @media (max-width: 480px) {
+      .scrivimi-banner {
+        padding: 2.5rem 4vw;
+      }
+      .clicca-testo {
+        left: 50%;
+        font-size: 1.6rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1421,6 +1434,17 @@
       card.addEventListener('mouseenter', run);
     })();
 
+
+
+    // ── Scrivimi banner: touch support ──
+    (function () {
+      const banner = document.querySelector('.scrivimi-banner');
+      if (!banner) return;
+      banner.addEventListener('touchstart', function () {
+        banner.classList.add('touched');
+        setTimeout(function () { banner.classList.remove('touched'); }, 2800);
+      }, { passive: true });
+    })();
 
   </script>
 </body>
