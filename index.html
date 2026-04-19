@@ -1285,23 +1285,17 @@
       }
 
       let running = false;
+      let wi = 0;
+      let spans = buildSpans();
 
       function run() {
         if (running) return;
         running = true;
-        const spans = buildSpans();
-
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          let wi = 0;
-          function next() {
-            if (wi >= WORDS.length) { running = false; return; }
-            animateWord(spans, WORDS[wi], COLORS[wi % COLORS.length], () => {
-              wi++;
-              setTimeout(next, 180);
-            });
-          }
-          next();
-        }));
+        const wordIdx = wi;
+        wi = (wi + 1) % WORDS.length;
+        animateWord(spans, WORDS[wordIdx], COLORS[wordIdx % COLORS.length], () => {
+          running = false;
+        });
       }
 
       card.addEventListener('mouseenter', run);
