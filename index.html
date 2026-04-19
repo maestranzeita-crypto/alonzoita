@@ -1005,7 +1005,7 @@
         </div>
       </div>
       <div class="project-card" onclick="window.open('https://il-cadreghin-aqjz.vercel.app/','_blank')">
-        <video muted loop playsinline>
+        <video muted loop playsinline autoplay>
           <source src="images/ilcadreghin.mp4" type="video/mp4" />
         </video>
         <div class="project-card-overlay" style="gap:0.5rem;">
@@ -1449,6 +1449,7 @@
         clearTimeout(timer);
         timer = setTimeout(function () {
           banner.classList.remove('touched');
+          timer = setTimeout(trigger, 3000);
         }, 5000);
       }
 
