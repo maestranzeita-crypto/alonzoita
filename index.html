@@ -136,7 +136,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 2;
-      mix-blend-mode: overlay;
+      mix-blend-mode: screen;
     }
 
     .hero > *:not(.hero-bg):not(#hero-fire-canvas):not(#hero-glow-canvas) {
@@ -1395,62 +1395,65 @@
       const particles = [];
       let time = 0;
 
-      // Hotspot luce sul tronco — posizioni reali dalla texture analysis
-      // Il tronco riceve luce dalla torcia (sx=62%, dx=80%), la sx è più illuminata
-      const trunkHotspots = [
-        // { xPct, yPct, baseAlpha, freq1, freq2, freq3, radiusPct }
-        { xPct: 0.635, yPct: 0.185, baseA: 0.55, f1: 2.1,  f2: 5.7,  f3: 13.9, rPct: 0.055 },
-        { xPct: 0.645, yPct: 0.230, baseA: 0.65, f1: 1.7,  f2: 4.3,  f3: 11.3, rPct: 0.065 },
-        { xPct: 0.660, yPct: 0.275, baseA: 0.50, f1: 2.9,  f2: 7.1,  f3: 17.3, rPct: 0.050 },
-        { xPct: 0.680, yPct: 0.215, baseA: 0.40, f1: 1.3,  f2: 3.9,  f3:  9.7, rPct: 0.060 },
-        { xPct: 0.700, yPct: 0.260, baseA: 0.30, f1: 2.3,  f2: 6.1,  f3: 14.7, rPct: 0.045 },
-        { xPct: 0.720, yPct: 0.200, baseA: 0.20, f1: 1.9,  f2: 5.3,  f3: 12.1, rPct: 0.040 },
-      ];
-
       function drawTrunkGlow(w, h) {
         gCtx.clearRect(0, 0, w, h);
 
-        // Per ogni hotspot: gradiente radiale con flickering indipendente
-        trunkHotspots.forEach(hs => {
-          const cx = w * hs.xPct;
-          const cy = h * hs.yPct;
-          const r  = w * hs.rPct;
-          const flick = hs.baseA
-            + Math.sin(time * hs.f1) * 0.08
-            + Math.sin(time * hs.f2) * 0.04
-            + Math.sin(time * hs.f3) * 0.02;
-          const a = Math.max(0, Math.min(1, flick));
+        // Flicker principale: 3 frequenze sovrapposte → effetto fuoco organico
+        const flicker = 0.40
+          + Math.sin(time * 1.7)  * 0.12
+          + Math.sin(time * 3.9)  * 0.06
+          + Math.sin(time * 11.3) * 0.02;
 
-          const g = gCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
-          // overlay: colori caldi (>128) su grigio chiaro = warm highlight
-          // su grigio scuro = leggero schiarimento arancione
-          g.addColorStop(0,    `rgba(255, 150, 40, ${a})`);
-          g.addColorStop(0.45, `rgba(220, 90,  15, ${a * 0.6})`);
-          g.addColorStop(0.75, `rgba(180, 50,   5, ${a * 0.25})`);
-          g.addColorStop(1,    'rgba(120, 20, 0, 0)');
-          gCtx.fillStyle = g;
-          gCtx.beginPath();
-          gCtx.arc(cx, cy, r, 0, Math.PI * 2);
-          gCtx.fill();
-        });
+        // Drift verticale lento: la luce "lecca" su e giù seguendo il fuoco
+        const drift = Math.sin(time * 0.9) * h * 0.028
+                    + Math.sin(time * 2.1) * h * 0.012;
 
-        // Alone diffuso sull'intera faccia del tronco (luce ambientale del fuoco)
-        const ambFlick = 0.18 + Math.sin(time * 1.4) * 0.04 + Math.sin(time * 3.3) * 0.02;
-        const ambW = w * 0.19;   // larghezza tronco ~18%
-        const ambH = h * 0.30;   // altezza zona illuminata
-        const ambCx = w * 0.660;
-        const ambCy = h * 0.235;
-        // Gradiente ellittico: usa scale + gradiente circolare
+        // Gradiente principale — ellisse allungata verticalmente
+        // Ancorata al bordo sinistro del tronco (lato che guarda la torcia)
+        const cx  = w * 0.635;
+        const cy  = h * 0.290 + drift;
+        const rW  = w * 0.115;
+        const rH  = h * 0.210;
+        const a   = Math.max(0, flicker);
+
         gCtx.save();
-        gCtx.translate(ambCx, ambCy);
-        gCtx.scale(1, ambH / ambW);
-        const amb = gCtx.createRadialGradient(0, 0, 0, 0, 0, ambW);
-        amb.addColorStop(0,   `rgba(255, 120, 20, ${ambFlick})`);
-        amb.addColorStop(0.5, `rgba(200, 60,   5, ${ambFlick * 0.4})`);
-        amb.addColorStop(1,   'rgba(140, 25, 0, 0)');
-        gCtx.fillStyle = amb;
+        gCtx.translate(cx, cy);
+        gCtx.scale(1, rH / rW);
+        const g1 = gCtx.createRadialGradient(0, 0, 0, 0, 0, rW);
+        g1.addColorStop(0,    `rgba(255, 140, 25, ${a})`);
+        g1.addColorStop(0.30, `rgba(235, 85,  10, ${a * 0.60})`);
+        g1.addColorStop(0.60, `rgba(185, 40,   0, ${a * 0.28})`);
+        g1.addColorStop(1,    'rgba(110, 15, 0, 0)');
+        gCtx.fillStyle = g1;
         gCtx.beginPath();
-        gCtx.arc(0, 0, ambW, 0, Math.PI * 2);
+        gCtx.arc(0, 0, rW, 0, Math.PI * 2);
+        gCtx.fill();
+        gCtx.restore();
+
+        // Hotspot secondario più piccolo — si muove in modo più erratico
+        const flick2 = 0.30
+          + Math.sin(time * 2.3)  * 0.10
+          + Math.sin(time * 7.1)  * 0.05
+          + Math.sin(time * 17.9) * 0.02;
+        const drift2 = Math.sin(time * 1.3) * h * 0.018
+                     + Math.sin(time * 4.7) * h * 0.008;
+
+        const cx2 = w * 0.648;
+        const cy2 = h * 0.240 + drift2;
+        const r2W = w * 0.065;
+        const r2H = h * 0.130;
+        const a2  = Math.max(0, flick2);
+
+        gCtx.save();
+        gCtx.translate(cx2, cy2);
+        gCtx.scale(1, r2H / r2W);
+        const g2 = gCtx.createRadialGradient(0, 0, 0, 0, 0, r2W);
+        g2.addColorStop(0,   `rgba(255, 165, 45, ${a2})`);
+        g2.addColorStop(0.4, `rgba(225, 95,  15, ${a2 * 0.50})`);
+        g2.addColorStop(1,   'rgba(155, 30, 0, 0)');
+        gCtx.fillStyle = g2;
+        gCtx.beginPath();
+        gCtx.arc(0, 0, r2W, 0, Math.PI * 2);
         gCtx.fill();
         gCtx.restore();
       }
