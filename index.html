@@ -100,7 +100,14 @@
       text-align: center;
       padding: 8rem 6vw 6rem;
       position: relative;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
       background: url('images/image00037.png') center center / cover no-repeat;
+      filter: grayscale(1);
+      z-index: 0;
     }
 
     .hero::before {
@@ -109,11 +116,22 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       pointer-events: none;
+      z-index: 1;
+    }
+
+    #hero-fire-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: screen;
     }
 
     .hero > * {
       position: relative;
-      z-index: 1;
+      z-index: 3;
     }
 
     .hero-portfolio-btn {
@@ -791,6 +809,8 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-bg"></div>
+    <canvas id="hero-fire-canvas"></canvas>
     <h1><span class="hero-highlight">mi piace</span> fare foto e creare siti</h1>
     <a href="#siti" class="hero-portfolio-btn">Portfolio</a>
   </section>
@@ -1299,6 +1319,139 @@
       }
 
       card.addEventListener('mouseenter', run);
+    })();
+
+    // ── Hero Fire Effect ──
+    (function() {
+      const canvas = document.getElementById('hero-fire-canvas');
+      const ctx = canvas.getContext('2d');
+      const hero = canvas.parentElement;
+
+      function resize() {
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor(x, y) {
+          this.init(x, y);
+        }
+        init(x, y) {
+          this.x = x + (Math.random() - 0.5) * 10;
+          this.y = y + (Math.random() - 0.5) * 4;
+          this.vx = (Math.random() - 0.5) * 0.7;
+          this.vy = -(Math.random() * 2.2 + 1.2);
+          this.life = 1.0;
+          this.decay = Math.random() * 0.018 + 0.010;
+          this.size = Math.random() * 9 + 5;
+          this.wobble = Math.random() * Math.PI * 2;
+          this.wobbleSpeed = Math.random() * 0.12 + 0.04;
+        }
+        update() {
+          this.wobble += this.wobbleSpeed;
+          this.x += this.vx + Math.sin(this.wobble) * 0.6;
+          this.y += this.vy;
+          this.vy -= 0.04;
+          this.size *= 0.985;
+          this.life -= this.decay;
+        }
+        draw(ctx) {
+          if (this.life <= 0 || this.size < 0.5) return;
+          let r, g, b;
+          const t = this.life;
+          if (t > 0.65) {
+            r = 255; g = Math.round(220 * ((t - 0.65) / 0.35) + 160); b = Math.round(80 * ((t - 0.65) / 0.35));
+          } else if (t > 0.35) {
+            r = 255; g = Math.round(160 * ((t - 0.35) / 0.30)); b = 0;
+          } else {
+            r = Math.round(220 * (t / 0.35)); g = 0; b = 0;
+          }
+          const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+          grad.addColorStop(0, `rgba(${r},${g},${b},${t * 0.9})`);
+          grad.addColorStop(0.5, `rgba(${r},${Math.round(g * 0.5)},0,${t * 0.5})`);
+          grad.addColorStop(1, `rgba(${Math.round(r * 0.5)},0,0,0)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      const particles = [];
+      let time = 0;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const w = canvas.width;
+        const h = canvas.height;
+        if (!w || !h) return;
+
+        const torchX = w * 0.52;
+        const torchY = h * 0.35;
+        const faceX  = w * 0.70;
+        const faceY  = h * 0.25;
+
+        ctx.clearRect(0, 0, w, h);
+        time += 0.05;
+
+        // Spawn particelle fuoco
+        const spawnCount = 4;
+        for (let i = 0; i < spawnCount; i++) {
+          particles.push(new Particle(torchX, torchY));
+        }
+
+        // Aggiorna e disegna
+        for (let i = particles.length - 1; i >= 0; i--) {
+          particles[i].update();
+          particles[i].draw(ctx);
+          if (particles[i].life <= 0 || particles[i].size < 0.5) {
+            particles.splice(i, 1);
+          }
+        }
+
+        // Nucleo incandescente (base torcia)
+        const coreFlicker = 0.85 + Math.sin(time * 11.3) * 0.1 + Math.sin(time * 7.7) * 0.05;
+        const coreR = w * 0.018 * coreFlicker;
+        const core = ctx.createRadialGradient(torchX, torchY, 0, torchX, torchY, coreR);
+        core.addColorStop(0,   `rgba(255,255,220,${0.95 * coreFlicker})`);
+        core.addColorStop(0.4, `rgba(255,200,60,${0.7  * coreFlicker})`);
+        core.addColorStop(1,   'rgba(255,80,0,0)');
+        ctx.fillStyle = core;
+        ctx.beginPath();
+        ctx.arc(torchX, torchY, coreR, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bagliore caldo sulla faccia del tronco
+        const flickA = 0.38 + Math.sin(time * 1.9) * 0.08 + Math.sin(time * 4.3) * 0.04 + Math.sin(time * 13.1) * 0.02;
+        const flickB = 0.30 + Math.sin(time * 2.7) * 0.06 + Math.sin(time * 6.1) * 0.03;
+        const glowR  = w * (0.18 + Math.sin(time * 2.1) * 0.015);
+
+        const glow = ctx.createRadialGradient(faceX, faceY, 0, faceX, faceY, glowR);
+        glow.addColorStop(0,    `rgba(255,140,30,${flickA})`);
+        glow.addColorStop(0.35, `rgba(255,80,10,${flickB})`);
+        glow.addColorStop(0.7,  `rgba(200,40,0,${flickB * 0.4})`);
+        glow.addColorStop(1,    'rgba(150,20,0,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(faceX, faceY, glowR, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Alone arancione diffuso attorno alla torcia
+        const haloFlick = 0.25 + Math.sin(time * 3.1) * 0.06;
+        const haloR = w * 0.07;
+        const halo = ctx.createRadialGradient(torchX, torchY, 0, torchX, torchY, haloR);
+        halo.addColorStop(0,   `rgba(255,120,20,${haloFlick})`);
+        halo.addColorStop(0.5, `rgba(255,60,0,${haloFlick * 0.4})`);
+        halo.addColorStop(1,   'rgba(200,30,0,0)');
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(torchX, torchY, haloR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      animate();
     })();
 
   </script>
