@@ -1428,6 +1428,28 @@
         fCtx.arc(torchX, torchY, haloR, 0, Math.PI * 2);
         fCtx.fill();
 
+        // Punta bruciante — brace che avvolge la cima del palo
+        // Gradiente ellittico allungato verso il basso: simula legno incandescente
+        const emberFlick = 0.80 + Math.sin(time * 9.1) * 0.10 + Math.sin(time * 5.3) * 0.06;
+        const braceW = w * 0.008;
+        const braceH = h * 0.040;
+        const braceY = torchY + braceH * 0.35; // centro leggermente sotto la punta
+
+        fCtx.save();
+        fCtx.translate(torchX, braceY);
+        fCtx.scale(1, braceH / braceW);
+        const brace = fCtx.createRadialGradient(0, 0, 0, 0, 0, braceW);
+        brace.addColorStop(0,    `rgba(255, 220, 100, ${emberFlick})`);
+        brace.addColorStop(0.25, `rgba(255, 120,  10, ${emberFlick * 0.85})`);
+        brace.addColorStop(0.55, `rgba(200,  40,   0, ${emberFlick * 0.50})`);
+        brace.addColorStop(0.80, `rgba(120,  10,   0, ${emberFlick * 0.20})`);
+        brace.addColorStop(1,    'rgba(60, 0, 0, 0)');
+        fCtx.fillStyle = brace;
+        fCtx.beginPath();
+        fCtx.arc(0, 0, braceW, 0, Math.PI * 2);
+        fCtx.fill();
+        fCtx.restore();
+
       }
 
       animate();
