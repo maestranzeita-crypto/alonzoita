@@ -888,7 +888,7 @@
         padding: 2.5rem 4vw;
       }
       .clicca-testo {
-        left: 50%;
+        left: 36%;
         font-size: 1.6rem;
       }
     }
@@ -1436,14 +1436,26 @@
 
 
 
-    // ── Scrivimi banner: touch support ──
+    // ── Scrivimi banner: su touch → parte allo scroll, sparisce dopo 5s ──
     (function () {
       const banner = document.querySelector('.scrivimi-banner');
       if (!banner) return;
-      banner.addEventListener('touchstart', function () {
+      if (!window.matchMedia('(hover: none)').matches) return;
+
+      var timer = null;
+      function trigger() {
+        if (banner.classList.contains('touched')) return;
         banner.classList.add('touched');
-        setTimeout(function () { banner.classList.remove('touched'); }, 2800);
-      }, { passive: true });
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          banner.classList.remove('touched');
+        }, 5000);
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) trigger();
+      }, { threshold: 0.35 });
+      observer.observe(banner);
     })();
 
   </script>
