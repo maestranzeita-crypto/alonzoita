@@ -847,18 +847,13 @@
     }
 
     .scrivimi-banner:hover .ap { animation: drawA 0.55s ease forwards; }
-    .scrivimi-banner:hover .ap:nth-child(1)  { animation-delay: 0.00s; }
-    .scrivimi-banner:hover .ap:nth-child(2)  { animation-delay: 0.07s; }
-    .scrivimi-banner:hover .ap:nth-child(3)  { animation-delay: 0.13s; }
-    .scrivimi-banner:hover .ap:nth-child(4)  { animation-delay: 0.19s; }
-    .scrivimi-banner:hover .ap:nth-child(5)  { animation-delay: 0.25s; }
-    .scrivimi-banner:hover .ap:nth-child(6)  { animation-delay: 0.31s; }
-    .scrivimi-banner:hover .ap:nth-child(7)  { animation-delay: 0.37s; }
-    .scrivimi-banner:hover .ap:nth-child(8)  { animation-delay: 0.43s; }
-    .scrivimi-banner:hover .ap:nth-child(9)  { animation-delay: 0.49s; }
-    .scrivimi-banner:hover .ap:nth-child(10) { animation-delay: 0.55s; }
-    .scrivimi-banner:hover .ap:nth-child(11) { animation-delay: 0.61s; }
-    .scrivimi-banner:hover .ap:nth-child(12) { animation-delay: 0.67s; }
+    .scrivimi-banner:hover .ap:nth-child(1) { animation-delay: 0.00s; }
+    .scrivimi-banner:hover .ap:nth-child(2) { animation-delay: 0.09s; }
+    .scrivimi-banner:hover .ap:nth-child(3) { animation-delay: 0.18s; }
+    .scrivimi-banner:hover .ap:nth-child(4) { animation-delay: 0.27s; }
+    .scrivimi-banner:hover .ap:nth-child(5) { animation-delay: 0.36s; }
+    .scrivimi-banner:hover .ap:nth-child(6) { animation-delay: 0.45s; }
+    .scrivimi-banner:hover .ap:nth-child(7) { animation-delay: 0.54s; }
 
     @keyframes drawA {
       to { stroke-dashoffset: 0; }
@@ -866,18 +861,20 @@
 
     .clicca-testo {
       position: absolute;
-      bottom: 12%;
-      right: 7%;
+      bottom: 4%;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: 'Caveat', cursive;
       font-size: clamp(1.8rem, 4vw, 3.2rem);
       font-weight: 700;
       color: #e03030;
+      white-space: nowrap;
       clip-path: inset(0 100% 0 0);
     }
 
     .scrivimi-banner:hover .clicca-testo {
       animation: revealWrite 0.7s ease forwards;
-      animation-delay: 0.85s;
+      animation-delay: 0.75s;
     }
 
     @keyframes revealWrite {
@@ -1018,30 +1015,20 @@
     <span class="scrivimi-text">scrivimi dai</span>
     <div class="scrivimi-hover-layer" aria-hidden="true">
       <svg class="arrows-svg" viewBox="0 0 1000 260" preserveAspectRatio="none">
-        <!-- 1: left → right -->
-        <path class="ap" pathLength="300" d="M 22,118 C 55,112 95,115 138,120 M 126,110 L 140,121 L 124,130"/>
-        <!-- 2: top-left → center -->
-        <path class="ap" pathLength="300" d="M 65,22 C 98,55 130,85 170,118 M 158,106 L 172,119 L 159,130"/>
-        <!-- 3: top ↓ left-center -->
-        <path class="ap" pathLength="300" d="M 255,12 C 257,48 259,82 260,120 M 251,108 L 261,122 L 270,108"/>
-        <!-- 4: top ↓ center-left -->
-        <path class="ap" pathLength="300" d="M 388,8 C 390,45 391,80 392,120 M 383,108 L 393,122 L 402,108"/>
-        <!-- 5: top ↓ center -->
-        <path class="ap" pathLength="300" d="M 505,10 C 503,48 501,82 499,120 M 490,108 L 500,122 L 509,108"/>
-        <!-- 6: top-right ↓ center-right -->
-        <path class="ap" pathLength="300" d="M 635,12 C 633,48 631,82 629,120 M 620,108 L 630,122 L 639,108"/>
-        <!-- 7: top-right → center -->
-        <path class="ap" pathLength="300" d="M 935,22 C 900,55 865,85 820,118 M 835,106 L 819,119 L 832,130"/>
-        <!-- 8: right → left -->
-        <path class="ap" pathLength="300" d="M 978,118 C 940,112 898,115 855,120 M 869,110 L 854,121 L 871,130"/>
-        <!-- 9: bottom-right ↑ -->
-        <path class="ap" pathLength="300" d="M 820,248 C 815,212 810,178 805,142 M 796,156 L 806,140 L 815,156"/>
-        <!-- 10: bottom center-right ↑ -->
-        <path class="ap" pathLength="300" d="M 640,252 C 638,216 636,180 634,144 M 625,158 L 635,142 L 644,158"/>
-        <!-- 11: bottom center-left ↑ -->
-        <path class="ap" pathLength="300" d="M 400,252 C 402,216 404,180 406,144 M 397,158 L 407,142 L 416,158"/>
-        <!-- 12: bottom-left ↑ -->
-        <path class="ap" pathLength="300" d="M 168,245 C 195,210 222,178 265,148 M 251,160 L 266,147 L 253,136"/>
+        <!-- 1: far left → destra -->
+        <path class="ap" pathLength="300" d="M 10,128 C 28,122 48,124 66,128 M 55,119 L 68,129 L 53,138"/>
+        <!-- 2: top-left ↘, punta a y=72 -->
+        <path class="ap" pathLength="300" d="M 50,10 C 82,30 118,50 158,72 M 145,62 L 160,73 L 146,84"/>
+        <!-- 3: top-center-left ↓, punta a y=68 -->
+        <path class="ap" pathLength="300" d="M 340,6 C 342,26 343,48 344,68 M 335,57 L 345,70 L 354,57"/>
+        <!-- 4: top-center-right ↓, punta a y=68 -->
+        <path class="ap" pathLength="300" d="M 660,6 C 658,26 657,48 656,68 M 647,57 L 657,70 L 666,57"/>
+        <!-- 5: top-right ↙, punta a y=72 -->
+        <path class="ap" pathLength="300" d="M 950,10 C 916,30 878,50 840,72 M 854,62 L 839,73 L 853,84"/>
+        <!-- 6: far right → sinistra -->
+        <path class="ap" pathLength="300" d="M 990,128 C 972,122 952,124 934,128 M 946,119 L 933,129 L 947,138"/>
+        <!-- 7: bottom-center ↑, punta a y=188 -->
+        <path class="ap" pathLength="300" d="M 500,252 C 500,232 500,210 500,190 M 491,202 L 501,188 L 510,202"/>
       </svg>
       <span class="clicca-testo">clicca qui</span>
     </div>
