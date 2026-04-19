@@ -1349,30 +1349,25 @@
       resize();
       window.addEventListener('resize', resize);
 
-      // ── Coordinate da analisi immagine (1350×1000px) ──
-      // Cima bastone: 54% L, 15% T  (buio continuo da 15% a 38%)
-      // Tronco: bordo sx 62%, bordo dx 80%, zona faccia 12%-38% T
-      // Hotspot texture: 62% L, 23% T
-
       class Particle {
         constructor(x, y) { this.init(x, y); }
         init(x, y) {
-          this.x  = x + (Math.random() - 0.5) * 8;
-          this.y  = y + (Math.random() - 0.5) * 3;
-          this.vx = (Math.random() - 0.5) * 0.6;
-          this.vy = -(Math.random() * 2.0 + 1.4);
+          this.x  = x + (Math.random() - 0.5) * 14;
+          this.y  = y + (Math.random() - 0.5) * 4;
+          this.vx = (Math.random() - 0.5) * 0.9;
+          this.vy = -(Math.random() * 1.2 + 0.6);
           this.life = 1.0;
-          this.decay = Math.random() * 0.016 + 0.010;
-          this.size = Math.random() * 10 + 5;
+          this.decay = Math.random() * 0.010 + 0.007;
+          this.size = Math.random() * 14 + 10;
           this.wobble = Math.random() * Math.PI * 2;
-          this.wobbleSpeed = Math.random() * 0.10 + 0.04;
+          this.wobbleSpeed = Math.random() * 0.08 + 0.03;
         }
         update() {
           this.wobble += this.wobbleSpeed;
-          this.x += this.vx + Math.sin(this.wobble) * 0.55;
+          this.x += this.vx + Math.sin(this.wobble) * 0.8;
           this.y += this.vy;
-          this.vy -= 0.035;
-          this.size *= 0.984;
+          this.vy -= 0.018;
+          this.size *= 0.990;
           this.life -= this.decay;
         }
         draw(ctx) {
@@ -1380,16 +1375,16 @@
           const t = this.life;
           let r, g, b;
           if (t > 0.65) {
-            r = 255; g = Math.round(180 * ((t-0.65)/0.35) + 160); b = Math.round(60 * ((t-0.65)/0.35));
+            r = 255; g = Math.round(200 * ((t-0.65)/0.35) + 140); b = Math.round(50 * ((t-0.65)/0.35));
           } else if (t > 0.35) {
-            r = 255; g = Math.round(160 * ((t-0.35)/0.30)); b = 0;
+            r = 255; g = Math.round(140 * ((t-0.35)/0.30)); b = 0;
           } else {
-            r = Math.round(200 * (t/0.35)); g = 0; b = 0;
+            r = Math.round(210 * (t/0.35)); g = 0; b = 0;
           }
           const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-          grad.addColorStop(0,   `rgba(${r},${g},${b},${t * 0.95})`);
-          grad.addColorStop(0.5, `rgba(${r},${Math.round(g*0.4)},0,${t * 0.5})`);
-          grad.addColorStop(1,   `rgba(${Math.round(r*0.4)},0,0,0)`);
+          grad.addColorStop(0,   `rgba(${r},${g},${b},${t * 0.85})`);
+          grad.addColorStop(0.5, `rgba(${r},${Math.round(g*0.3)},0,${t * 0.4})`);
+          grad.addColorStop(1,   `rgba(${Math.round(r*0.3)},0,0,0)`);
           ctx.fillStyle = grad;
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
