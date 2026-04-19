@@ -848,12 +848,10 @@
 
     .scrivimi-banner:hover .ap { animation: drawA 0.55s ease forwards; }
     .scrivimi-banner:hover .ap:nth-child(1) { animation-delay: 0.00s; }
-    .scrivimi-banner:hover .ap:nth-child(2) { animation-delay: 0.09s; }
-    .scrivimi-banner:hover .ap:nth-child(3) { animation-delay: 0.18s; }
-    .scrivimi-banner:hover .ap:nth-child(4) { animation-delay: 0.27s; }
-    .scrivimi-banner:hover .ap:nth-child(5) { animation-delay: 0.36s; }
-    .scrivimi-banner:hover .ap:nth-child(6) { animation-delay: 0.45s; }
-    .scrivimi-banner:hover .ap:nth-child(7) { animation-delay: 0.54s; }
+    .scrivimi-banner:hover .ap:nth-child(2) { animation-delay: 0.11s; }
+    .scrivimi-banner:hover .ap:nth-child(3) { animation-delay: 0.22s; }
+    .scrivimi-banner:hover .ap:nth-child(4) { animation-delay: 0.33s; }
+    .scrivimi-banner:hover .ap:nth-child(5) { animation-delay: 0.44s; }
 
     @keyframes drawA {
       to { stroke-dashoffset: 0; }
@@ -862,7 +860,7 @@
     .clicca-testo {
       position: absolute;
       bottom: 4%;
-      left: 50%;
+      left: 38%;
       transform: translateX(-50%);
       font-family: 'Caveat', cursive;
       font-size: clamp(1.8rem, 4vw, 3.2rem);
@@ -1015,18 +1013,14 @@
     <span class="scrivimi-text">scrivimi dai</span>
     <div class="scrivimi-hover-layer" aria-hidden="true">
       <svg class="arrows-svg" viewBox="0 0 1000 260" preserveAspectRatio="none">
-        <!-- 1: far left → destra -->
-        <path class="ap" pathLength="300" d="M 10,128 C 28,122 48,124 66,128 M 55,119 L 68,129 L 53,138"/>
-        <!-- 2: top-left ↘, punta a y=72 -->
-        <path class="ap" pathLength="300" d="M 50,10 C 82,30 118,50 158,72 M 145,62 L 160,73 L 146,84"/>
+        <!-- 2 (invertita, area bianca) ↗ dal basso-sx verso il testo -->
+        <path class="ap" pathLength="300" d="M 80,232 C 102,205 128,178 155,153 M 142,164 L 154,152 L 166,163"/>
         <!-- 3: top-center-left ↓, punta a y=68 -->
         <path class="ap" pathLength="300" d="M 340,6 C 342,26 343,48 344,68 M 335,57 L 345,70 L 354,57"/>
-        <!-- 4: top-center-right ↓, punta a y=68 -->
-        <path class="ap" pathLength="300" d="M 660,6 C 658,26 657,48 656,68 M 647,57 L 657,70 L 666,57"/>
         <!-- 5: top-right ↙, punta a y=72 -->
         <path class="ap" pathLength="300" d="M 950,10 C 916,30 878,50 840,72 M 854,62 L 839,73 L 853,84"/>
-        <!-- 6: far right → sinistra -->
-        <path class="ap" pathLength="300" d="M 990,128 C 972,122 952,124 934,128 M 946,119 L 933,129 L 947,138"/>
+        <!-- 6: far right → sinistra, spostata in basso -->
+        <path class="ap" pathLength="300" d="M 990,162 C 972,156 952,158 934,162 M 946,153 L 933,163 L 947,172"/>
         <!-- 7: bottom-center ↑, punta a y=188 -->
         <path class="ap" pathLength="300" d="M 500,252 C 500,232 500,210 500,190 M 491,202 L 501,188 L 510,202"/>
       </svg>
