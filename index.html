@@ -119,30 +119,9 @@
       z-index: 1;
     }
 
-    #hero-fire-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      mix-blend-mode: screen;
-    }
-
-
-    #hero-char-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      mix-blend-mode: multiply;
-    }
-
-    .hero > *:not(.hero-bg):not(#hero-fire-canvas):not(#hero-char-canvas) {
+    .hero > *:not(.hero-bg) {
       position: relative;
-      z-index: 3;
+      z-index: 1;
     }
 
     .hero-portfolio-btn {
@@ -821,8 +800,6 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <canvas id="hero-char-canvas"></canvas>
-    <canvas id="hero-fire-canvas"></canvas>
     <h1><span class="hero-highlight">mi piace</span> fare foto e creare siti</h1>
     <a href="#siti" class="hero-portfolio-btn">Portfolio</a>
   </section>
@@ -1333,168 +1310,6 @@
       card.addEventListener('mouseenter', run);
     })();
 
-    // ── Hero Fire Effect ──
-    (function() {
-      const fireCanvas = document.getElementById('hero-fire-canvas');
-      const fCtx = fireCanvas.getContext('2d');
-      const charCanvas = document.getElementById('hero-char-canvas');
-      const cCtx = charCanvas.getContext('2d');
-      const hero = fireCanvas.parentElement;
-
-      function drawChar() {
-        const cw = charCanvas.width;
-        const ch = charCanvas.height;
-        const cx = cw * 0.516;
-        const cy = ch * 0.330;
-        const rW = cw * 0.016;
-        const rH = ch * 0.075;
-        cCtx.clearRect(0, 0, cw, ch);
-
-        // Rettangolo centrale nero pieno con angoli arrotondati
-        const rx = cx - rW;
-        const ry = cy - rH;
-        const radius = rW * 0.5;
-        cCtx.save();
-        cCtx.beginPath();
-        cCtx.roundRect(rx, ry, rW * 2, rH * 2, radius);
-        cCtx.fillStyle = 'rgba(0, 0, 0, 0.92)';
-        cCtx.fill();
-        cCtx.restore();
-
-        // Sfumatura esterna per ammorbidire i bordi
-        cCtx.save();
-        const edgeSize = rW * 1.8;
-        for (const [ox, oy, ew, eh] of [
-          [cx - rW - edgeSize, ry, edgeSize, rH * 2],   // sinistra
-          [cx + rW,            ry, edgeSize, rH * 2],   // destra
-          [rx, cy - rH - edgeSize, rW * 2, edgeSize],   // sopra
-          [rx, cy + rH,            rW * 2, edgeSize],   // sotto
-        ]) {
-          const isH = ew > eh;
-          const g = isH
-            ? cCtx.createLinearGradient(ox, 0, ox + ew, 0)
-            : cCtx.createLinearGradient(0, oy, 0, oy + eh);
-          const fromLeft = ox < cx;
-          const fromTop  = oy < cy;
-          if (isH) {
-            g.addColorStop(fromLeft ? 0 : 1, 'rgba(0,0,0,0)');
-            g.addColorStop(fromLeft ? 1 : 0, 'rgba(0,0,0,0.88)');
-          } else {
-            g.addColorStop(fromTop ? 0 : 1, 'rgba(0,0,0,0)');
-            g.addColorStop(fromTop ? 1 : 0, 'rgba(0,0,0,0.88)');
-          }
-          cCtx.fillStyle = g;
-          cCtx.fillRect(ox, oy, ew, eh);
-        }
-        cCtx.restore();
-      }
-
-      function resize() {
-        fireCanvas.width = charCanvas.width = hero.offsetWidth;
-        fireCanvas.height = charCanvas.height = hero.offsetHeight;
-        drawChar();
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      class Particle {
-        constructor(x, y) { this.init(x, y); }
-        init(x, y) {
-          this.x  = x + (Math.random() - 0.5) * 10;
-          this.y  = y + (Math.random() - 0.5) * 3;
-          this.vx = (Math.random() - 0.5) * 0.6;
-          this.vy = -(Math.random() * 0.9 + 0.5);
-          this.life = 1.0;
-          this.decay = Math.random() * 0.018 + 0.015;
-          this.size = Math.random() * 10 + 9;
-          this.wobble = Math.random() * Math.PI * 2;
-          this.wobbleSpeed = Math.random() * 0.07 + 0.03;
-        }
-        update() {
-          this.wobble += this.wobbleSpeed;
-          this.x += this.vx + Math.sin(this.wobble) * 0.8;
-          this.y += this.vy;
-          this.vy -= 0.018;
-          this.size *= 0.990;
-          this.life -= this.decay;
-        }
-        draw(ctx) {
-          if (this.life <= 0 || this.size < 0.5) return;
-          const t = this.life;
-          let r, g, b;
-          if (t > 0.65) {
-            r = 255; g = Math.round(200 * ((t-0.65)/0.35) + 140); b = Math.round(50 * ((t-0.65)/0.35));
-          } else if (t > 0.35) {
-            r = 255; g = Math.round(140 * ((t-0.35)/0.30)); b = 0;
-          } else {
-            r = Math.round(210 * (t/0.35)); g = 0; b = 0;
-          }
-          const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-          grad.addColorStop(0,   `rgba(${r},${g},${b},${t * 0.85})`);
-          grad.addColorStop(0.5, `rgba(${r},${Math.round(g*0.3)},0,${t * 0.4})`);
-          grad.addColorStop(1,   `rgba(${Math.round(r*0.3)},0,0,0)`);
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      const particles = [];
-      let time = 0;
-
-
-      function animate() {
-        requestAnimationFrame(animate);
-        const w = fireCanvas.width;
-        const h = fireCanvas.height;
-        if (!w || !h) return;
-
-        // Coordinate precise da analisi Python
-        const torchX = w * 0.512;
-        const torchY = h * 0.33;
-
-        fCtx.clearRect(0, 0, w, h);
-        time += 0.05;
-
-        // Spawn particelle
-        for (let i = 0; i < 4; i++) particles.push(new Particle(torchX, torchY));
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-          particles[i].update();
-          particles[i].draw(fCtx);
-          if (particles[i].life <= 0 || particles[i].size < 0.5) particles.splice(i, 1);
-        }
-
-        // Nucleo incandescente torcia
-        const coreFlick = 0.88 + Math.sin(time * 11.3) * 0.09 + Math.sin(time * 7.7) * 0.05;
-        const coreR = w * 0.016 * coreFlick;
-        const core = fCtx.createRadialGradient(torchX, torchY, 0, torchX, torchY, coreR);
-        core.addColorStop(0,   `rgba(255,255,230,${0.97 * coreFlick})`);
-        core.addColorStop(0.4, `rgba(255,210,70,${0.75 * coreFlick})`);
-        core.addColorStop(1,   'rgba(255,90,0,0)');
-        fCtx.fillStyle = core;
-        fCtx.beginPath();
-        fCtx.arc(torchX, torchY, coreR, 0, Math.PI * 2);
-        fCtx.fill();
-
-        // Alone torcia (screen: additive glow nell'aria)
-        const haloFlick = 0.22 + Math.sin(time * 3.1) * 0.05 + Math.sin(time * 8.3) * 0.02;
-        const haloR = w * 0.065;
-        const halo = fCtx.createRadialGradient(torchX, torchY, 0, torchX, torchY, haloR);
-        halo.addColorStop(0,   `rgba(255,130,25,${haloFlick})`);
-        halo.addColorStop(0.5, `rgba(255,70,5,${haloFlick * 0.35})`);
-        halo.addColorStop(1,   'rgba(180,30,0,0)');
-        fCtx.fillStyle = halo;
-        fCtx.beginPath();
-        fCtx.arc(torchX, torchY, haloR, 0, Math.PI * 2);
-        fCtx.fill();
-
-
-      }
-
-      animate();
-    })();
 
   </script>
 </body>
