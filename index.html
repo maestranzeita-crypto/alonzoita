@@ -787,6 +787,31 @@
       }
     }
 
+    /* ── SCRIVIMI DAI ── */
+    .scrivimi-banner {
+      position: relative;
+      background: linear-gradient(to bottom, #111111 50%, #ffffff 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3.5rem 6vw;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .scrivimi-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 13vw, 9rem);
+      font-weight: 700;
+      color: #ffffff;
+      mix-blend-mode: difference;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+      line-height: 1;
+      user-select: none;
+    }
 
   </style>
 </head>
@@ -916,6 +941,11 @@
       </div>
     </div>
   </section>
+
+  <!-- SCRIVIMI DAI -->
+  <div class="scrivimi-banner">
+    <span class="scrivimi-text">scrivimi dai .</span>
+  </div>
 
   <!-- FOTOGRAFIE -->
   <section id="foto">
