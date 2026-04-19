@@ -1346,22 +1346,46 @@
         const ch = charCanvas.height;
         const cx = cw * 0.516;
         const cy = ch * 0.330;
-        const rW = cw * 0.010;
-        const rH = ch * 0.052;
+        const rW = cw * 0.016;
+        const rH = ch * 0.075;
         cCtx.clearRect(0, 0, cw, ch);
+
+        // Rettangolo centrale nero pieno con angoli arrotondati
+        const rx = cx - rW;
+        const ry = cy - rH;
+        const radius = rW * 0.5;
         cCtx.save();
-        cCtx.translate(cx, cy);
-        cCtx.scale(1, rH / rW);
-        const cg = cCtx.createRadialGradient(0, 0, 0, 0, 0, rW);
-        cg.addColorStop(0,    'rgba(0,   0,   0, 1.00)');
-        cg.addColorStop(0.40, 'rgba(10,  4,   0, 0.90)');
-        cg.addColorStop(0.65, 'rgba(25, 10,   0, 0.65)');
-        cg.addColorStop(0.85, 'rgba(50, 20,   5, 0.30)');
-        cg.addColorStop(1,    'rgba(80, 35,  10, 0.00)');
-        cCtx.fillStyle = cg;
         cCtx.beginPath();
-        cCtx.arc(0, 0, rW, 0, Math.PI * 2);
+        cCtx.roundRect(rx, ry, rW * 2, rH * 2, radius);
+        cCtx.fillStyle = 'rgba(0, 0, 0, 0.92)';
         cCtx.fill();
+        cCtx.restore();
+
+        // Sfumatura esterna per ammorbidire i bordi
+        cCtx.save();
+        const edgeSize = rW * 1.8;
+        for (const [ox, oy, ew, eh] of [
+          [cx - rW - edgeSize, ry, edgeSize, rH * 2],   // sinistra
+          [cx + rW,            ry, edgeSize, rH * 2],   // destra
+          [rx, cy - rH - edgeSize, rW * 2, edgeSize],   // sopra
+          [rx, cy + rH,            rW * 2, edgeSize],   // sotto
+        ]) {
+          const isH = ew > eh;
+          const g = isH
+            ? cCtx.createLinearGradient(ox, 0, ox + ew, 0)
+            : cCtx.createLinearGradient(0, oy, 0, oy + eh);
+          const fromLeft = ox < cx;
+          const fromTop  = oy < cy;
+          if (isH) {
+            g.addColorStop(fromLeft ? 0 : 1, 'rgba(0,0,0,0)');
+            g.addColorStop(fromLeft ? 1 : 0, 'rgba(0,0,0,0.88)');
+          } else {
+            g.addColorStop(fromTop ? 0 : 1, 'rgba(0,0,0,0)');
+            g.addColorStop(fromTop ? 1 : 0, 'rgba(0,0,0,0.88)');
+          }
+          cCtx.fillStyle = g;
+          cCtx.fillRect(ox, oy, ew, eh);
+        }
         cCtx.restore();
       }
 
