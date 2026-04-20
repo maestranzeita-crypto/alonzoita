@@ -6,7 +6,7 @@
   <title>Scrivimi — Alonzo Ita</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Indie+Flower&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Indie+Flower&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -46,9 +46,9 @@
       align-items: center;
       padding: 0 6vw;
       height: 56px;
-      background: rgba(255,255,255,0.88);
+      background: rgba(17,17,17,0.96);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
 
     .nav-back {
@@ -59,12 +59,12 @@
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(255,255,255,0.45);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    .nav-back:hover { color: var(--text); }
+    .nav-back:hover { color: #ffffff; }
 
     .nav-back svg {
       transition: transform 0.2s;
@@ -102,12 +102,18 @@
     }
 
     .page-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 7vw, 6rem);
-      font-weight: 700;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 300;
       color: #ffffff;
-      line-height: 1.0;
+      line-height: 0.95;
       margin-bottom: 1.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .page-title em {
+      font-style: italic;
+      font-weight: 600;
     }
 
     .page-desc {
@@ -211,41 +217,49 @@
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      width: 100%;
-      padding: 0.95rem 2rem;
+      background: none;
       border: none;
-      border-radius: 999px;
-      background: var(--gold);
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.875rem;
+      padding: 0.5rem 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
       cursor: pointer;
-      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+      transition: opacity 0.2s, letter-spacing 0.25s;
+      position: relative;
     }
 
-    .btn-submit:hover {
-      background: #b8943d;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(201,168,76,0.28);
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--text);
+      transform: scaleX(0.3);
+      transform-origin: left;
+      transition: transform 0.3s ease;
     }
 
-    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:hover { letter-spacing: 0.28em; }
+    .btn-submit:hover::after { transform: scaleX(1); }
 
     .btn-submit:disabled {
-      opacity: 0.6;
+      opacity: 0.4;
       cursor: not-allowed;
-      transform: none;
+      letter-spacing: 0.2em;
     }
 
-    /* Spinner nel bottone */
+    /* Spinner */
     .btn-spinner {
       display: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.35);
-      border-top-color: #fff;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      border-top-color: var(--text);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
@@ -355,12 +369,11 @@
 
     <!-- SINISTRA -->
     <div class="page-left">
-      <p class="page-tag">Contatti</p>
       <div class="divider-left"></div>
       <h1 class="page-title">Scrivimi<br><em>dai.</em></h1>
       <p class="page-desc">
-        Hai un progetto in mente? Vuoi un sito, vuoi collaborare, o semplicemente vuoi dire ciao?
-        Scrivi pure — rispondo a tutto.
+        Parliamone, ascolto le tue idee e cerco di farle diventare in qualcosa di concreto.<br><br>
+        Le tempistiche variano in base alla complessità del progetto, minimo una settimana.
       </p>
     </div>
 
@@ -388,8 +401,8 @@
               <select id="motivo" name="motivo">
                 <option value="">Seleziona...</option>
                 <option value="sito">Voglio un sito web</option>
-                <option value="foto">Servizio fotografico</option>
                 <option value="collaborazione">Collaborazione</option>
+                <option value="ciao">Dire ciao</option>
                 <option value="altro">Altro</option>
               </select>
             </div>
