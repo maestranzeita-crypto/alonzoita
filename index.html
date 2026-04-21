@@ -105,9 +105,23 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background: url('images/image00037.png') center center / cover no-repeat;
-      filter: grayscale(1);
       z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      filter: grayscale(1);
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
     }
 
     .hero::before {
@@ -903,7 +917,11 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-bg">
+      <div class="hero-slide active" style="background-image:url('images/alonzo1.jpeg')"></div>
+      <div class="hero-slide" style="background-image:url('images/alonzo2.jpeg')"></div>
+      <div class="hero-slide" style="background-image:url('images/alonzo3.jpeg')"></div>
+    </div>
     <h1><span class="hero-highlight">mi piace</span> fare foto e creare siti</h1>
     <a href="#siti" class="hero-portfolio-btn">Portfolio</a>
   </section>
@@ -1091,6 +1109,17 @@
   </footer>
 
   <script>
+    // ── Hero slideshow ──
+    (function () {
+      const slides = document.querySelectorAll('.hero-slide');
+      let cur = 0;
+      setInterval(() => {
+        slides[cur].classList.remove('active');
+        cur = (cur + 1) % slides.length;
+        slides[cur].classList.add('active');
+      }, 2000);
+    })();
+
     // ── Video cards: hover su desktop, tieni premuto su mobile ──
     document.querySelectorAll('.project-card').forEach(card => {
       const video = card.querySelector('video');
