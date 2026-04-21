@@ -719,57 +719,20 @@
       pointer-events: none;
       text-transform: uppercase;
     }
-    /* ── GEAR / CERCHIO ANIMATO ── */
     .hero {
       position: relative;
       z-index: 2;
     }
 
-    /* contenitore blend: position:relative senza z-index → non crea stacking context */
     .blend-header {
       position: relative;
       background: #111111;
       text-align: center;
       padding: 6rem 6vw 4rem;
-      overflow: visible;
     }
 
-    /* SVG col centro sul bordo superiore di #siti → visivamente tra le due sezioni */
-    #gears {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      translate: -50% -50%;
-      width: 700px;
-      height: 700px;
-      overflow: visible;
-      transform-origin: center;
-      animation: gearCCW 60s linear infinite;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    #gears #g2 {
-      transform-origin: center;
-      animation: gearCW 15s linear infinite;
-    }
-
-    .mbm {
-      mix-blend-mode: difference;
-    }
-
-    /* section-header: solo position:relative, NO z-index → non crea stacking context
-       così i figli operano nel body stacking context e vedono l'SVG sottostante */
-    #siti .section-header {
-      position: relative;
-    }
-
-    /* z-index:2 + mix-blend-mode direttamente su titolo e desc:
-       creano stacking context nel body stacking context, sopra l'SVG (z-index:1) */
     #siti .section-title {
       color: #ffffff;
-      position: relative;
-      z-index: 2;
       text-transform: uppercase;
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(5rem, 18vw, 12rem);
@@ -779,23 +742,9 @@
 
     #siti .section-desc {
       color: #ffffff;
-      position: relative;
-      z-index: 2;
-    }
-
-    @keyframes gearCW {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes gearCCW {
-      to { transform: rotate(-360deg); }
     }
 
     @media (max-width: 480px) {
-      #gears {
-        width: 420px;
-        height: 420px;
-      }
       .blend-header {
         padding-top: 5rem;
       }
@@ -930,27 +879,6 @@
   <section id="siti">
     <!-- .blend-header: contenitore con position:relative + background:black, senza isolation -->
     <div class="blend-header">
-      <!-- SVG posizionato absolute z-index:1, fratello diretto del testo -->
-      <svg id="gears" width="700" height="700" viewBox="0 0 400 400">
-        <circle cx="200" cy="200" r="100" fill="none" stroke="#2a2a2a" stroke-width="200" stroke-dasharray="4.3 4.3" />
-        <g id="g2" fill="#2a2a2a" stroke="none" class="mbm">
-          <circle cx="170" cy="200" r="170" />
-          <circle class="mbm" cx="230" cy="200" r="109.5" />
-          <circle class="mbm" cx="180" cy="200" r="59.5" />
-        </g>
-        <circle cx="200" cy="200" r="204" fill="none" stroke="#2a2a2a" stroke-width="3" />
-        <circle cx="200" cy="200" r="40" fill="url('#rGradient')" stroke="none" />
-        <circle cx="200" cy="200" r="33" fill="#2a2a2a" stroke="none" />
-        <circle cx="200" cy="200" r="31" fill="#111" stroke="none" />
-        <circle cx="200" cy="200" r="39" fill="none" stroke="#111" stroke-width="2" stroke-opacity="0.2" />
-        <defs>
-          <radialGradient id="rGradient">
-            <stop offset="80%" stop-color="#2a2a2a" stop-opacity="1" />
-            <stop offset="100%" stop-color="#2a2a2a" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-      </svg>
-      <!-- testo: position:relative z-index:2 mix-blend-mode:difference -->
       <div class="section-header">
         <h2 class="section-title">Progetti</h2>
         <div class="divider"></div>
