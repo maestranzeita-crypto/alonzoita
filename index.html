@@ -117,11 +117,19 @@
       background-repeat: no-repeat;
       filter: grayscale(1);
       opacity: 0;
-      transition: opacity 0.9s ease;
     }
 
     .hero-slide.active {
       opacity: 1;
+    }
+
+    .hero-flicker {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
     }
 
     .hero::before {
@@ -1037,15 +1045,32 @@
   </footer>
 
   <script>
-    // ── Hero slideshow ──
+    // ── Hero slideshow: film flicker ──
     (function () {
       const slides = document.querySelectorAll('.hero-slide');
+      const heroBg = document.querySelector('.hero-bg');
       let cur = 0;
-      setInterval(() => {
+
+      const flicker = document.createElement('div');
+      flicker.className = 'hero-flicker';
+      heroBg.appendChild(flicker);
+
+      function flash(op, delay) {
+        return new Promise(r => setTimeout(() => { flicker.style.opacity = op; r(); }, delay));
+      }
+
+      async function doFlicker() {
+        await flash('0.8',   0);
+        await flash('0',    80);
+        await flash('0.55', 130);
+        await flash('0',    190);
+        // hard cut al fotogramma successivo
         slides[cur].classList.remove('active');
         cur = (cur + 1) % slides.length;
         slides[cur].classList.add('active');
-      }, 2000);
+      }
+
+      setInterval(doFlicker, 2000);
     })();
 
     // ── Video cards: hover su desktop, tieni premuto su mobile ──
