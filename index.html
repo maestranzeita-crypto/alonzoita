@@ -90,40 +90,33 @@
       color: var(--muted);
     }
 
-    /* ── HERO ── */
-    .hero {
+    /* ── CHI SONO ── */
+    #chi-sono {
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 8rem 6vw 6rem;
-      position: relative;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    .chi-sono-photo {
+      position: relative;
       overflow: hidden;
     }
 
-    .hero-slide {
+    .cs-slide {
       position: absolute;
       inset: 0;
       background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
+      background-position: center;
       filter: grayscale(1);
       opacity: 0;
     }
 
-    .hero-slide.active {
+    .cs-slide.active {
       opacity: 1;
     }
 
-    .hero-flicker {
+    .cs-flicker {
       position: absolute;
       inset: 0;
       background: #fff;
@@ -132,69 +125,49 @@
       z-index: 5;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      pointer-events: none;
-      z-index: 1;
+    .chi-sono-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 5vw;
+      background: var(--bg-alt);
     }
 
-    .hero > *:not(.hero-bg) {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-portfolio-btn {
-      display: inline-block;
-      margin-top: 2rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 3px;
-      transition: color 0.25s, border-color 0.25s;
-    }
-
-    .hero-portfolio-btn:hover {
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .hero h1 {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(1.6rem, 4vw, 3rem);
-      font-weight: 300;
-      line-height: 1.2;
-      letter-spacing: 0.01em;
-      color: rgba(255, 255, 255, 0.55);
+    .chi-sono-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
       margin-bottom: 0;
     }
 
-    .hero-highlight {
-      transition: color 0.25s;
-      cursor: default;
+    .chi-sono-content .section-tag {
+      margin-bottom: 1rem;
     }
 
-    @media (hover: hover) {
-      .hero-highlight:hover {
-        color: #e03030;
-      }
+    .chi-sono-content p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
     }
 
-    .hero-highlight.touched {
-      color: #e03030;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      gap: 1rem;
+    .cs-tags {
+      display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      #chi-sono {
+        grid-template-columns: 1fr;
+      }
+
+      .chi-sono-photo {
+        min-height: 55vh;
+      }
     }
 
     .btn {
@@ -727,11 +700,6 @@
       pointer-events: none;
       text-transform: uppercase;
     }
-    .hero {
-      position: relative;
-      z-index: 2;
-    }
-
     .blend-header {
       position: relative;
       background: #111111;
@@ -872,16 +840,8 @@
     <a href="#" class="nav-logo">alonzoita.com</a>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg">
-      <div class="hero-slide active" style="background-image:url('images/alonzo1.jpeg')"></div>
-      <div class="hero-slide" style="background-image:url('images/alonzo2.jpeg')"></div>
-      <div class="hero-slide" style="background-image:url('images/alonzo3.jpeg')"></div>
-    </div>
-    <h1><span class="hero-highlight">mi piace</span> fare foto e creare siti</h1>
-    <a href="#siti" class="hero-portfolio-btn">Portfolio</a>
-  </section>
+  <!-- PLACEHOLDER -->
+  <section style="min-height:100vh;background:#ffffff;"></section>
 
   <!-- SITI WEB -->
   <section id="siti">
@@ -1020,6 +980,28 @@
   </section>
 
 
+  <!-- CHI SONO -->
+  <section id="chi-sono">
+    <div class="chi-sono-photo">
+      <div class="cs-slide active" style="background-image:url('images/alonzo1.jpeg')"></div>
+      <div class="cs-slide" style="background-image:url('images/alonzo2.jpeg')"></div>
+      <div class="cs-slide" style="background-image:url('images/alonzo3.jpeg')"></div>
+      <div class="cs-flicker"></div>
+    </div>
+    <div class="chi-sono-content">
+      <span class="section-tag">Chi sono</span>
+      <h2 class="chi-sono-name">Fredy Alonzo<br>Ita Tukasaki</h2>
+      <div class="divider" style="margin:1rem 0;"></div>
+      <p>Ho 26 anni, sono peruviano e costruisco siti web da qualche mese — non per caso, ma per scelta. Ho imparato facendo, sbagliando, ripartendo. Ogni progetto è un'occasione per portare cura e attenzione in qualcosa di concreto.</p>
+      <p>La fotografia è il mio hobby: un modo di guardare il mondo con più lentezza. Mi ha insegnato a pensare alla composizione, ai dettagli, all'equilibrio — una mentalità che porto anche nel lavoro.</p>
+      <div class="cs-tags">
+        <span class="skill-tag">Web Design</span>
+        <span class="skill-tag">Sviluppo Web</span>
+        <span class="skill-tag">Fotografia</span>
+      </div>
+    </div>
+  </section>
+
   <!-- LIGHTBOX -->
   <div id="lightbox">
     <button id="lbClose">&#10005;</button>
@@ -1045,15 +1027,12 @@
   </footer>
 
   <script>
-    // ── Hero slideshow: film flicker ──
+    // ── Chi sono slideshow: film flicker ──
     (function () {
-      const slides = document.querySelectorAll('.hero-slide');
-      const heroBg = document.querySelector('.hero-bg');
+      const slides = document.querySelectorAll('.cs-slide');
+      const flicker = document.querySelector('.cs-flicker');
+      if (!slides.length || !flicker) return;
       let cur = 0;
-
-      const flicker = document.createElement('div');
-      flicker.className = 'hero-flicker';
-      heroBg.appendChild(flicker);
 
       function flash(op, delay) {
         return new Promise(r => setTimeout(() => { flicker.style.opacity = op; r(); }, delay));
@@ -1064,7 +1043,6 @@
         await flash('0',    80);
         await flash('0.55', 130);
         await flash('0',    190);
-        // hard cut al fotogramma successivo
         slides[cur].classList.remove('active');
         cur = (cur + 1) % slides.length;
         slides[cur].classList.add('active');
@@ -1116,12 +1094,6 @@
         if (isPlaying) { video.pause(); video.currentTime = 0; }
         isPlaying = false;
       });
-    });
-
-    // ── Hero highlight touch ──
-    document.querySelector('.hero-highlight').addEventListener('click', function() {
-      this.classList.add('touched');
-      setTimeout(() => this.classList.remove('touched'), 1500);
     });
 
     // ── Carosello ──
