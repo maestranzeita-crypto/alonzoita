@@ -53,9 +53,9 @@
       align-items: center;
       padding: 0 6vw;
       height: 56px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(17, 17, 17, 0.92);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       overflow: visible;
       transition: transform 0.35s ease, opacity 0.35s ease;
     }
@@ -87,7 +87,7 @@
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.5);
     }
 
     /* ── CHI SONO ── */
@@ -841,11 +841,15 @@
   </nav>
 
   <!-- INTRO -->
-  <section style="min-height:100vh;background:#111111;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:4vw 6vw 5vw;gap:0;">
-    <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12.5vw,14rem);color:#ffffff;line-height:0.95;text-align:center;width:100%;">Arrivo da lontano</p>
-    <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12.5vw,14rem);color:#ffffff;line-height:0.95;text-align:center;width:100%;">faccio cose da vicino</p>
-    <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12.5vw,14rem);color:#ffffff;line-height:0.95;text-align:center;width:100%;margin-top:0.1em;">ecco i miei</p>
+  <section style="min-height:100vh;background:#ffffff;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:4vw 6vw 5vw;gap:0;">
+    <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12.5vw,14rem);color:#111111;line-height:0.95;text-align:center;width:100%;">Arrivo da lontano</p>
+    <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12.5vw,14rem);color:#111111;line-height:0.95;text-align:center;width:100%;">faccio cose da vicino</p>
   </section>
+
+  <!-- ECCO I MIEI -->
+  <div style="position:relative;background:linear-gradient(to bottom,#ffffff 50%,#111111 50%);display:flex;align-items:center;justify-content:center;padding:3.5rem 6vw;overflow:hidden;">
+    <span style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,13vw,9rem);font-weight:700;color:#ffffff;mix-blend-mode:difference;letter-spacing:-0.02em;white-space:nowrap;position:relative;z-index:1;line-height:1;user-select:none;transform:translateY(-15%);display:block;">ecco i miei</span>
+  </div>
 
   <!-- SITI WEB -->
   <section id="siti">
