@@ -856,11 +856,44 @@
   </nav>
 
   <!-- INTRO -->
-  <section style="position:relative;min-height:100vh;background:url('hero1.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vw 6vw 5vw;gap:0.5rem;">
+  <section style="position:relative;min-height:100vh;background:url('hero1.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vw 6vw 5vw;gap:0;">
     <div style="position:absolute;inset:0;background:rgba(0,0,0,0.52);z-index:0;"></div>
-    <p style="position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.2vw,2.5rem);font-weight:300;font-style:italic;color:#ffffff;line-height:1.2;text-align:center;width:100%;">Arrivo da <span style="color:#c9a84c;font-size:1.2em;font-style:normal;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">lontano</span></p>
-    <p style="position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.2vw,2.5rem);font-weight:300;font-style:italic;color:#ffffff;line-height:1.2;text-align:center;width:100%;">faccio cose da <span style="color:#c9a84c;font-size:1.2em;font-style:normal;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">vicino</span></p>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:0.15em;">
+      <span class="intro-line intro-small" style="animation-delay:0.2s;">arrivo da</span>
+      <span class="intro-line intro-big" style="animation-delay:0.7s;">LONTANO</span>
+      <span class="intro-line intro-small" style="animation-delay:1.3s;">faccio cose da</span>
+      <span class="intro-line intro-big" style="animation-delay:1.8s;">VICINO</span>
+    </div>
   </section>
+
+  <style>
+    .intro-line {
+      display: block;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(22px);
+      animation: introFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .intro-small {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.2vw, 2.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #ffffff;
+      letter-spacing: 0.08em;
+    }
+    .intro-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.6vw, 3rem);
+      font-weight: 600;
+      font-style: normal;
+      color: #c9a84c;
+      letter-spacing: 0.18em;
+    }
+    @keyframes introFadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 
   <!-- SITI WEB -->
   <section id="siti">
