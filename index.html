@@ -722,6 +722,93 @@
       }
     }
 
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 780px;
+      padding: 0 6vw;
+      opacity: 0;
+      animation: heroFadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.75);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4.8vw, 3.5rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.875rem, 1.4vw, 1rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.48);
+      line-height: 1.8;
+      margin: 0 auto 2.5rem;
+      max-width: 480px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 0.9rem 2.6rem;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #000000;
+      background: #ffffff;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hero-cta:hover {
+      background: var(--gold);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201,168,76,0.3);
+    }
+
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
   </style>
 </head>
 <body>
@@ -731,64 +818,16 @@
     <a href="#" class="nav-logo">alonzoita.com</a>
   </nav>
 
-  <!-- INTRO -->
-  <section style="position:relative;min-height:100vh;background:url('hero1.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vw 6vw 5vw;">
-    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.58);z-index:0;"></div>
-    <div class="intro-stack">
-      <div class="intro-row"><span class="intro-reveal intro-sm" style="animation-delay:0.1s;">arrivo da</span></div>
-      <div class="intro-row"><span class="intro-reveal intro-lg" style="animation-delay:0.55s;">LONTANO</span></div>
-      <div class="intro-row intro-divider-row"><span class="intro-divider" style="animation-delay:1s;"></span></div>
-      <div class="intro-row"><span class="intro-reveal intro-sm" style="animation-delay:1.15s;">faccio cose da</span></div>
-      <div class="intro-row"><span class="intro-reveal intro-lg" style="animation-delay:1.6s;">VICINO</span></div>
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Web Design &middot; SEO &middot; Automazioni &middot; Fotografia</p>
+      <h1 class="hero-headline">Costruiamo sistemi digitali che fanno crescere la tua azienda</h1>
+      <p class="hero-sub">Web design, SEO, automazioni e fotografia integrati in un unico ecosistema.</p>
+      <a href="https://wa.me/393516533038" target="_blank" rel="noopener noreferrer" class="hero-cta">Richiedi una consulenza</a>
     </div>
   </section>
-
-  <style>
-    .intro-stack {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.1em;
-    }
-    .intro-row { overflow: hidden; }
-    .intro-reveal {
-      display: block;
-      transform: translateY(110%);
-      animation: introSlide 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-    }
-    .intro-sm {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(0.75rem, 1.6vw, 1.4rem);
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-    }
-    .intro-lg {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.2rem, 7vw, 7.5rem);
-      font-weight: 800;
-      color: #c9a84c;
-      letter-spacing: 0.06em;
-      line-height: 0.95;
-    }
-    .intro-divider-row { overflow: visible; margin: 0.4em 0; }
-    .intro-divider {
-      display: block;
-      width: 0;
-      height: 1px;
-      background: rgba(201,168,76,0.4);
-      animation: introDivider 0.6s ease forwards;
-    }
-    @keyframes introSlide {
-      to { transform: translateY(0); }
-    }
-    @keyframes introDivider {
-      to { width: clamp(60px, 12vw, 140px); }
-    }
-  </style>
 
   <!-- SITI WEB -->
   <section id="siti">
@@ -1197,8 +1236,153 @@
       card.addEventListener('mouseenter', run);
     })();
 
+    // ── HERO NETWORK ANIMATION ──
+    (function () {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
+      let W, H, nodes = [];
+      const mouse = { x: null, y: null };
 
+      const isMobile = () => W < 768;
+
+      class Node {
+        constructor(x, y, isCenter) {
+          this.x = x;
+          this.y = y;
+          this.isCenter = !!isCenter;
+          this.radius = isCenter ? 3 : Math.random() * 1.4 + 0.8;
+          this.vx = isCenter ? 0 : (Math.random() - 0.5) * 0.45;
+          this.vy = isCenter ? 0 : (Math.random() - 0.5) * 0.45;
+        }
+
+        update() {
+          if (this.isCenter) return;
+
+          if (mouse.x !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const d  = Math.sqrt(dx * dx + dy * dy);
+            if (d < 160) {
+              const f = (1 - d / 160) * 0.014;
+              this.vx += dx * f;
+              this.vy += dy * f;
+            }
+          }
+
+          this.vx *= 0.975;
+          this.vy *= 0.975;
+
+          const spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+          if (spd > 1.3) { this.vx = this.vx / spd * 1.3; this.vy = this.vy / spd * 1.3; }
+
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0)  { this.x = 0;  this.vx *= -1; }
+          if (this.x > W)  { this.x = W;  this.vx *= -1; }
+          if (this.y < 0)  { this.y = 0;  this.vy *= -1; }
+          if (this.y > H)  { this.y = H;  this.vy *= -1; }
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.shadowBlur  = this.isCenter ? 14 : 5;
+          ctx.shadowColor = this.isCenter ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.25)';
+          ctx.fillStyle   = '#ffffff';
+          ctx.fill();
+          ctx.shadowBlur  = 0;
+        }
+      }
+
+      function initNodes() {
+        nodes = [];
+        nodes.push(new Node(W / 2, H / 2, true));
+        const count = isMobile() ? 16 : 26;
+        for (let i = 0; i < count; i++) {
+          nodes.push(new Node(Math.random() * W, Math.random() * H, false));
+        }
+      }
+
+      function drawEdges() {
+        const DIST_REG    = isMobile() ? 115 : 150;
+        const DIST_CENTER = isMobile() ? 200 : 240;
+        const len = nodes.length;
+
+        for (let i = 0; i < len; i++) {
+          for (let j = i + 1; j < len; j++) {
+            const a = nodes[i], b = nodes[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d  = Math.sqrt(dx * dx + dy * dy);
+            const maxD = (a.isCenter || b.isCenter) ? DIST_CENTER : DIST_REG;
+            if (d >= maxD) continue;
+
+            let alpha = (1 - d / maxD) * 0.3;
+
+            if (mouse.x !== null) {
+              const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+              const md = Math.sqrt((mouse.x - mx) ** 2 + (mouse.y - my) ** 2);
+              if (md < 200) alpha += (1 - md / 200) * 0.45;
+            }
+
+            alpha = Math.min(alpha, 0.72);
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+            ctx.lineWidth   = (a.isCenter || b.isCenter) ? 0.65 : 0.4;
+            ctx.stroke();
+          }
+        }
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Subtle parallax on center node
+        const c = nodes[0];
+        if (mouse.x !== null) {
+          c.x += ((W / 2 + (mouse.x - W / 2) * 0.025) - c.x) * 0.06;
+          c.y += ((H / 2 + (mouse.y - H / 2) * 0.025) - c.y) * 0.06;
+        } else {
+          c.x += (W / 2 - c.x) * 0.04;
+          c.y += (H / 2 - c.y) * 0.04;
+        }
+
+        for (let i = 1; i < nodes.length; i++) nodes[i].update();
+        drawEdges();
+        for (const n of nodes) n.draw();
+        requestAnimationFrame(frame);
+      }
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        initNodes();
+      }
+
+      window.addEventListener('resize', resize);
+
+      window.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        if (e.clientY > rect.bottom) { mouse.x = mouse.y = null; return; }
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      window.addEventListener('mouseleave', () => { mouse.x = mouse.y = null; });
+
+      window.addEventListener('touchmove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.touches[0].clientX - rect.left;
+        mouse.y = e.touches[0].clientY - rect.top;
+      }, { passive: true });
+
+      resize();
+      frame();
+    })();
 
   </script>
 </body>
